@@ -1,38 +1,41 @@
 package pl.orlowski.sebastian.forumspring.user;
 
-import lombok.Data;
-
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
+import java.util.Collection;
 
 @Entity
-@Data
-public class User implements Serializable {
-
-    private static long serialVersionUID = 1L;
+@Table(name = "user")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 15)
     private String login;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "password")
+    private String password;
     private String email;
 
-    @Column(nullable = false)
-    private String password;
-    private Date createdAt;
-    private Gender gender;
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
-    @OneToMany(mappedBy = "user")
-    private List<Topic> topic;
+    public User(String login, String password, String email, Collection<Role> roles) {
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+    }
 
-    @OneToMany(mappedBy = "user")
-    private List<Inscription> inscription;
+    public User() {
+
+    }
 
     public Long getId() {
         return id;
@@ -50,14 +53,6 @@ public class User implements Serializable {
         this.login = login;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -66,43 +61,19 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Gender getGender() {
-        return gender;
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public List<Topic> getTopic() {
-        return topic;
-    }
-
-    public void setTopic(List<Topic> topic) {
-        this.topic = topic;
-    }
-
-    public List<Inscription> getInscription() {
-        return inscription;
-    }
-
-    public void setInscription(List<Inscription> inscription) {
-        this.inscription = inscription;
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }
