@@ -5,7 +5,11 @@ public class UserRegistrationDto {
     private String password;
     private String email;
 
+    public UserRegistrationDto() {
+    }
+
     public UserRegistrationDto(String login, String password, String email) {
+        super();
         this.login = login;
         this.password = password;
         this.email = email;

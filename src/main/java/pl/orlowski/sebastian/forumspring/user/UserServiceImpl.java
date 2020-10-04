@@ -1,6 +1,8 @@
 package pl.orlowski.sebastian.forumspring.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
@@ -24,5 +26,10 @@ public class UserServiceImpl implements UserService {
                 userRegistrationDto.getPassword(), Arrays.asList(new Role("USER")));
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
     }
 }
