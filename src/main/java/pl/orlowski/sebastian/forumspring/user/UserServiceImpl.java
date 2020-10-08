@@ -20,6 +20,8 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+
+    /* Save user to db */
     @Override
     public User save(UserRegistrationDto userRegistrationDto) {
         User user = new User(userRegistrationDto.getLogin(), userRegistrationDto.getEmail(),
@@ -28,8 +30,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    /* Load user by login */
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        return null;
+        User user = userRepository.findByLogin(login);
+        if (user != null) {
+            return (UserDetails) user;
+        } throw new UsernameNotFoundException("Unknown user");
     }
+
+    /* Transfer roles to authorities */
 }

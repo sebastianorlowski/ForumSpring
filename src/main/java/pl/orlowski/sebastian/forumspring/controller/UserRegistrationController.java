@@ -31,6 +31,7 @@ public class UserRegistrationController {
         return "registration";
     }
 
+    /* After registration we will get message about complete */
     @PostMapping
     public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto userRegistrationDto) {
         userService.save(userRegistrationDto);
