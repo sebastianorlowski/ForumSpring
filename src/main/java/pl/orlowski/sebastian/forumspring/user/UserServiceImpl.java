@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
@@ -21,16 +22,18 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+//    Encode password into save
+    private BCryptPasswordEncoder passwordEncoder;
+
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
     /* Save user to db */
     @Override
     public User save(UserRegistrationDto userRegistrationDto) {
         User user = new User(userRegistrationDto.getLogin(), userRegistrationDto.getEmail(),
-                userRegistrationDto.getPassword(), Arrays.asList(new Role("USER")));
+                passwordEncoder.encode(userRegistrationDto.getPassword()), Arrays.asList(new Role("USER")));
 
         return userRepository.save(user);
     }
