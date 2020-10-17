@@ -26,14 +26,15 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository) {
+        super();
         this.userRepository = userRepository;
     }
 
     /* Save user to db */
     @Override
     public User save(UserRegistrationDto userRegistrationDto) {
-        User user = new User(userRegistrationDto.getLogin(), userRegistrationDto.getEmail(),
-                passwordEncoder.encode(userRegistrationDto.getPassword()), Arrays.asList(new Role("USER")));
+        User user = new User(userRegistrationDto.getLogin(), passwordEncoder.encode(userRegistrationDto.getPassword()),
+                userRegistrationDto.getEmail(), Arrays.asList(new Role("USER")));
 
         return userRepository.save(user);
     }
@@ -42,9 +43,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = userRepository.findByLogin(login);
-        if (user != null) {
+        if (user == null) {
+            throw new UsernameNotFoundException("Unknown user");
+        }
             return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
-        } throw new UsernameNotFoundException("Unknown user");
     }
 
     /* Transfer roles to authorities */
