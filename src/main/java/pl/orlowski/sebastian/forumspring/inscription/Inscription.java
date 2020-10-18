@@ -3,22 +3,39 @@ package pl.orlowski.sebastian.forumspring.inscription;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 import pl.orlowski.sebastian.forumspring.user.User;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "inscription")
 public class Inscription {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String text;
-    private Date createdAt;
+
+//    Many inscriptions to one user
+    @ManyToOne
+    @JoinColumn
     private User user;
+
+    // Many inscriptions to one topic
+    @ManyToOne
     private Topic topic;
 
-    public Inscription(Long id, String text, Date createdAt, User user, Topic topic) {
+    private Date createdAt;
+
+    public Inscription(Long id, String text, User user, Topic topic, Date createdAt) {
         this.id = id;
         this.text = text;
-        this.createdAt = createdAt;
         this.user = user;
         this.topic = topic;
+        this.createdAt = createdAt;
+    }
+
+    public Inscription() {
+
     }
 
     public Long getId() {
@@ -37,14 +54,6 @@ public class Inscription {
         this.text = text;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public User getUser() {
         return user;
     }
@@ -59,5 +68,13 @@ public class Inscription {
 
     public void setTopic(Topic topic) {
         this.topic = topic;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }
