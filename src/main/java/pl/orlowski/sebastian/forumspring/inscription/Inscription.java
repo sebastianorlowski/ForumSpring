@@ -1,5 +1,6 @@
-package pl.orlowski.sebastian.forumspring.topic;
+package pl.orlowski.sebastian.forumspring.inscription;
 
+import pl.orlowski.sebastian.forumspring.topic.Topic;
 import pl.orlowski.sebastian.forumspring.user.User;
 
 import java.util.Date;

@@ -1,5 +1,7 @@
 package pl.orlowski.sebastian.forumspring.topic;
 
+import pl.orlowski.sebastian.forumspring.inscription.Inscription;
+
 import java.util.Date;
 import java.util.Set;
 
