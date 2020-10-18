@@ -16,6 +16,7 @@ public class UserRegistrationController {
 
     private UserService userService;
 
+    @Autowired
     public UserRegistrationController(UserService userService) {
         this.userService = userService;
     }

@@ -1,6 +1,5 @@
 package pl.orlowski.sebastian.forumspring.user;
 
-import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,12 +20,11 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
-    @Autowired
 //    Encode password into save
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
-        super();
         this.userRepository = userRepository;
     }
 
