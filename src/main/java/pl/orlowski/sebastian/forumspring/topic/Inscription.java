@@ -1,22 +1,23 @@
 package pl.orlowski.sebastian.forumspring.topic;
 
-import java.util.Date;
-import java.util.Set;
+import pl.orlowski.sebastian.forumspring.user.User;
 
-public class Topic {
+import java.util.Date;
+
+public class Inscription {
 
     private Long id;
-    private String title;
     private String text;
     private Date createdAt;
-    private Set<Inscription> inscription;
+    private User user;
+    private Topic topic;
 
-    public Topic(Long id, String title, String text, Date createdAt, Set<Inscription> inscription) {
+    public Inscription(Long id, String text, Date createdAt, User user, Topic topic) {
         this.id = id;
-        this.title = title;
         this.text = text;
         this.createdAt = createdAt;
-        this.inscription = inscription;
+        this.user = user;
+        this.topic = topic;
     }
 
     public Long getId() {
@@ -25,14 +26,6 @@ public class Topic {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getText() {
@@ -51,11 +44,19 @@ public class Topic {
         this.createdAt = createdAt;
     }
 
-    public Set<Inscription> getInscription() {
-        return inscription;
+    public User getUser() {
+        return user;
     }
 
-    public void setInscription(Set<Inscription> inscription) {
-        this.inscription = inscription;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 }
