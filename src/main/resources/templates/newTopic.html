@@ -20,6 +20,11 @@
         <div class = "col-md6 col-md-offset-3">
 
             <br><br>
+            <h2>Create new topic</h2>
+
+            <div th:if="${param.success}">
+                <div class="alert alert-info">Your created new topic!</div>
+            </div>
 
             <form method="post" th:action="@{/newTopic}" th:object="${topic}">
 
