@@ -69,7 +69,8 @@ public class Topic {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createAt) {
-        this.createdAt = createAt;
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = new Date();
     }
 }
