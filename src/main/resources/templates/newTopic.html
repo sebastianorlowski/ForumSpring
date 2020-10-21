@@ -24,9 +24,12 @@
 
             <div th:if="${param.success}">
                 <div class="alert alert-info">Your created new topic!</div>
+                <ul class="nav navbar-nav">
+                    <a th:href="@{/newTopic}">HERE</a></li>
+                </ul>
             </div>
 
-            <form method="post" th:action="@{/newTopic}" th:object="${topic}">
+            <form method="post" th:action="@{/newTopic}" th:object="${newTopic}">
 
                 <div class="row">
                     <div class="input-field col s12">
