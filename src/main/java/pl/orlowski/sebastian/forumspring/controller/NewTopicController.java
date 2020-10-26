@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
-import pl.orlowski.sebastian.forumspring.dto.NewTopicDto;
+import pl.orlowski.sebastian.forumspring.topic.NewTopic;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
 @Controller
@@ -30,12 +30,12 @@ public class NewTopicController {
 
     @GetMapping
     public String newTopic(Model model) {
-        model.addAttribute("newTopic", new NewTopicDto());
+        model.addAttribute("newTopic", new NewTopic());
         return "newTopic";
     }
 
     @PostMapping
-    public String createNewTopic(@ModelAttribute("newTopic") NewTopicDto newTopic, Authentication auth) {
+    public String createNewTopic(@ModelAttribute("newTopic") NewTopic newTopic, Authentication auth) {
         Topic topic = new Topic();
         topic.setUser(userRepository.findByLogin(auth.getName()));
         topic.setTitle(newTopic.getTitle());

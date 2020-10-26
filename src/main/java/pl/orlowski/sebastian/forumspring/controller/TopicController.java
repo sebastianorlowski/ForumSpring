@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.orlowski.sebastian.forumspring.dto.InscriptionDto;
-import pl.orlowski.sebastian.forumspring.dto.NewTopicDto;
+import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
@@ -30,7 +28,7 @@ public class TopicController {
     }
 
     @PostMapping("/topic={id}/inscription")
-    public String addInscription(@ModelAttribute("topic") InscriptionDto newInscription, Authentication auth) {
+    public String addInscription(@ModelAttribute("topic") Inscription inscription, Authentication auth) {
         return "inscription";
     }
 

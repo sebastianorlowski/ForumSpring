@@ -1,15 +1,15 @@
-package pl.orlowski.sebastian.forumspring.dto;
+package pl.orlowski.sebastian.forumspring.topic;
 
-public class NewTopicDto {
+public class NewTopic {
     private String title;
     private String text;
 
-    public NewTopicDto(String title, String text) {
+    public NewTopic(String title, String text) {
         this.title = title;
         this.text = text;
     }
 
-    public NewTopicDto() {
+    public NewTopic() {
     }
 
     public String getTitle() {
