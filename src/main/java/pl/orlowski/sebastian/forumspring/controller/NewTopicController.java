@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
-import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
-import pl.orlowski.sebastian.forumspring.service.UserService;
-import pl.orlowski.sebastian.forumspring.topic.NewTopic;
+import pl.orlowski.sebastian.forumspring.dto.NewTopicDto;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
 @Controller
@@ -30,31 +28,21 @@ public class NewTopicController {
         this.topicService = topicService;
     }
 
-    @ModelAttribute("topic")
-    public Topic topic() {
-        return new Topic();
-    }
-
     @GetMapping
     public String newTopic(Model model) {
-        model.addAttribute("newTopic", new NewTopic());
+        model.addAttribute("newTopic", new NewTopicDto());
         return "newTopic";
     }
 
     @PostMapping
-    public String createNewTopic(@ModelAttribute("newTopic") NewTopic newTopic, Authentication auth) {
+    public String createNewTopic(@ModelAttribute("newTopic") NewTopicDto newTopic, Authentication auth) {
         Topic topic = new Topic();
         topic.setUser(userRepository.findByLogin(auth.getName()));
         topic.setTitle(newTopic.getTitle());
         topic.setText(newTopic.getText());
 
         topicService.save(topic);
-        return "redirect:/topic=" + topic.getId();
+        return "redirect:/topic/" + topic.getId();
     }
 
-//    @PostMapping
-//    public String goToTopic(@ModelAttribute("topic") Topic topic) {
-//        topicService.findOne(topic.getId());
-//        return "redirect:/topic/" + topic.getId();
-//    }
 }
