@@ -27,13 +27,6 @@ public class TopicController {
         return "topic";
     }
 
-    @PostMapping("/topic={id}/inscription")
-    public String addInscription(@ModelAttribute("topic") Inscription inscription, Authentication auth) {
-        return "inscription";
-    }
-
-
-
     }
 
 
