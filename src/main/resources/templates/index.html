@@ -28,19 +28,19 @@
     <h1>Welcome <span sec:authentication="principal.username"> </span></h1>
 </div>
 
-<div align="center">
+<div align="center" class="container my-2">
     <h3>Topic list</h3>
-    <table>
+    <table border="1" class="table table-striped table-responsive-md">
         <thead>
         <tr>
             <th>Topic name</th>
-            <th>Author</th>
+            <th>Created</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="topic : ${topicList}">
             <td th:text="${topic.title}"></td>
-            <td th:text="${topic.user}"></td>
+            <td th:text="${topic.createdAt}"></td>
         </tr>
         </tbody>
     </table>

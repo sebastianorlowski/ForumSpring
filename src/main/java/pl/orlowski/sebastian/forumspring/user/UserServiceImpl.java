@@ -9,7 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
+import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.service.UserService;
+import pl.orlowski.sebastian.forumspring.topic.Topic;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,13 +21,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private TopicService topicService;
 
 //    Encode password into save
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, TopicService topicService) {
         this.userRepository = userRepository;
+        this.topicService = topicService;
     }
 
     /* Save user to db */
@@ -35,6 +39,12 @@ public class UserServiceImpl implements UserService {
                 userRegistrationDto.getEmail(), Arrays.asList(new Role("USER")));
 
         return userRepository.save(user);
+    }
+
+    public String getUserLoginByTopic(Long topicId) {
+        Topic topic = topicService.findOne(topicId);
+        User user = topic.getUser();
+        return user.getLogin();
     }
 
     /* Login user */
