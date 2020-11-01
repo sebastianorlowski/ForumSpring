@@ -17,15 +17,15 @@ import pl.orlowski.sebastian.forumspring.topic.Topic;
 @RequestMapping("/newTopic")
 public class NewTopicController {
 
-    @Autowired
     private TopicService topicService;
 
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    public NewTopicController(TopicService topicService) {
+    public NewTopicController(TopicService topicService,
+                              UserRepository userRepository) {
         this.topicService = topicService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping

@@ -1,14 +1,18 @@
 package pl.orlowski.sebastian.forumspring.inscription;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 
 import java.util.List;
 
+@Service
 public class InscriptionServiceImpl implements InscriptionService {
 
     private InscriptionRepository inscriptionRepository;
 
+    @Autowired
     public InscriptionServiceImpl(InscriptionRepository inscriptionRepository) {
         this.inscriptionRepository = inscriptionRepository;
     }

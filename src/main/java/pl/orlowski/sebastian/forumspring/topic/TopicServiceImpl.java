@@ -1,5 +1,6 @@
 package pl.orlowski.sebastian.forumspring.topic;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
@@ -11,6 +12,7 @@ public class TopicServiceImpl implements TopicService {
 
     private TopicRepository topicRepository;
 
+    @Autowired
     public TopicServiceImpl(TopicRepository topicRepository) {
         this.topicRepository = topicRepository;
     }
