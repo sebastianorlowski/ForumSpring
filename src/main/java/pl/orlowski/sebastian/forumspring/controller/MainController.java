@@ -10,7 +10,6 @@ import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
 @Controller
-@RequestMapping("/")
 public class MainController {
 
     private TopicService topicService;
@@ -20,14 +19,9 @@ public class MainController {
         this.topicService = topicService;
     }
 
-    @ModelAttribute("topic")
-    public Topic topic() {
-        return new Topic();
-    }
-
-    @GetMapping
+    @GetMapping("/")
     public String topicList(Model model) {
-        model.addAttribute("topic", new Topic());
+        model.addAttribute("topicList", topicService.findAll());
         return "index";
     }
 
