@@ -16,9 +16,6 @@
     <div id="navbar" class="collapse navbar-collapse">
 
         <ul class="nav navbar-nav">
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/newTopic}">Create new topic</a></li>
-        </ul>
-        <ul class="nav navbar-nav">
             <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
         </ul>
     </div>
@@ -26,6 +23,10 @@
 
 <div class="container">
     <h1>Welcome <span sec:authentication="principal.username"> </span></h1>
+</div>
+
+<div class="container my-2">
+    <a th:href="@{/newTopic}" class="btn btn-success">Create new topic</a>
 </div>
 
 <div align="center" class="container my-2">
