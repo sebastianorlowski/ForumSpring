@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private TopicService topicService;
 
 //    Encode password into save
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
