@@ -18,7 +18,7 @@ public class Topic {
     private String text;
 
 //    Many topics to one user
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private User user;
     private Date createdAt;

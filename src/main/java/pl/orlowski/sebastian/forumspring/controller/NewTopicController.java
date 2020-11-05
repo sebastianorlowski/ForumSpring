@@ -35,7 +35,7 @@ public class NewTopicController {
     }
 
     @PostMapping
-    public String createNewTopic(@ModelAttribute("newTopic") NewTopic newTopic, Authentication auth) {
+    public String createNewTopic(NewTopic newTopic, Authentication auth) {
         Topic topic = new Topic();
         topic.setUser(userRepository.findByLogin(auth.getName()));
         topic.setTitle(newTopic.getTitle());

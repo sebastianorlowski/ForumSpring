@@ -24,7 +24,7 @@
                 Add new inscription
             </h2>
 
-           <form method="post" th:action="@{/topic/{id}(id=topic.id)}" th:object="${inscriptionDto}">
+           <form method="post" th:action="@{/topic/{id}(id = ${id})}" th:object="${inscription}">
 
                <div class="row">
                     <div class="input-field col s12">

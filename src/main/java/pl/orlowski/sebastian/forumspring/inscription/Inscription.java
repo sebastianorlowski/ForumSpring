@@ -16,12 +16,13 @@ public class Inscription {
     private String text;
 
 //    Many inscriptions to one user
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private User user;
 
     // Many inscriptions to one topic
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private Topic topic;
 
     private Date createdAt;
@@ -74,7 +75,8 @@ public class Inscription {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = new Date();
     }
 }

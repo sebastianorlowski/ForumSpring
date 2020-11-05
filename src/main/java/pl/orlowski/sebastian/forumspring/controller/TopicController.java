@@ -11,6 +11,7 @@ import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
+import pl.orlowski.sebastian.forumspring.user.User;
 
 @Controller
 @RequestMapping("/topic/")
@@ -47,19 +48,19 @@ public class TopicController {
         return "inscription";
     }
 
-    @PostMapping
-    public String addInscriptionToTopic(@ModelAttribute("inscription") InscriptionDto inscriptionDto,
-                                        @PathVariable Long id,
-                                        Authentication auth) {
-        Topic topic = topicService.findOne(id);;
+    @PostMapping("{id}")
+    public String createNewInscription(@PathVariable Long id,
+                                       InscriptionDto inscriptionDto,
+                                       Authentication auth) {
+        Topic topic = topicService.findOne(id);
         Inscription inscription = new Inscription();
-        inscription.setUser(userRepository.findByLogin(auth.getName()));
+        inscription.setTopic(topic);
         inscription.setText(inscriptionDto.getText());
-        inscription.setTopic(topicService.findOne(id));
+        inscription.setUser(userRepository.findByLogin(auth.getName()));
 
         inscriptionService.save(inscription);
 
-        return "redirect:/topic/" + topic.getId();
+        return "redirect:/topic/" + id;
     }
 
     }
