@@ -7,4 +7,5 @@ import pl.orlowski.sebastian.forumspring.user.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByLogin(String login);
+    boolean existsUserByLogin(String login);
 }

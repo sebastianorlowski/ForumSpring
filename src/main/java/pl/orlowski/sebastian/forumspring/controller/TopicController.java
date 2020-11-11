@@ -4,43 +4,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import pl.orlowski.sebastian.forumspring.dto.TopicDto;
+import org.springframework.web.bind.annotation.RequestMapping;
+import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
-@Controller("topic")
+@Controller
+@RequestMapping("/topic/")
 public class TopicController {
 
     private TopicService topicService;
     private UserRepository userRepository;
     private InscriptionService inscriptionService;
+    private TopicRepository topicRepository;
 
     @Autowired
     public TopicController(TopicService topicService,
                            UserRepository userRepository,
-                           InscriptionService inscriptionService) {
+                           InscriptionService inscriptionService,
+                           TopicRepository topicRepository) {
 
         this.topicService = topicService;
         this.userRepository = userRepository;
         this.inscriptionService = inscriptionService;
+        this.topicRepository = topicRepository;
     }
 
     /* find topic by id */
     @GetMapping("{id}")
-    public String getTopicById(@PathVariable Long id, Model model) {
+    public String getTopicWindow(@PathVariable Long id, Model model) {
         Topic topic = topicService.findOne(id);
-        if (topic == null) {
-            return "redirect:/";
+        if (topicRepository.existsById(id)) {
+            model.addAttribute("topic", topic);
+            return "topic";
         }
-        model.addAttribute("topic", topic);
-        model.addAttribute("inscriptions", inscriptionService.getInscriptionsByTopicId(id));
-
-        return "topic";
+        return "redirect:/";
     }
 
 //    edit topic text

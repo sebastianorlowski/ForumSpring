@@ -69,7 +69,7 @@ public class InscriptionController {
         Long topicId = inscription.getId();
 
         if (inscription.getUser() != userRepository.findByLogin(auth.getName())) {
-            return "redirect :/topic/" + id;
+            return "redirect:/topic/" + id;
         }
         inscriptionService.delete(id);
 

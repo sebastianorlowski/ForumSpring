@@ -33,6 +33,10 @@
                 <div class="alert alert-info">Your registration is complete!</div>
             </div>
 
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">This login is exist!</div>
+            </div>
+
             <br>
             <form method="post" th:action="@{/registration}" th:object="${user}">
                 <div class="form-group">
