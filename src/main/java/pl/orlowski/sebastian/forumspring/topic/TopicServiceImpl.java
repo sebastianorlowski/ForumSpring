@@ -2,10 +2,12 @@ package pl.orlowski.sebastian.forumspring.topic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -36,4 +38,5 @@ public class TopicServiceImpl implements TopicService {
     public void delete(Long id) {
         topicRepository.delete(findOne(id));
     }
+
 }

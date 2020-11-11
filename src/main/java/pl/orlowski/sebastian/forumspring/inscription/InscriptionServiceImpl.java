@@ -6,6 +6,7 @@ import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class InscriptionServiceImpl implements InscriptionService {
@@ -36,4 +37,10 @@ public class InscriptionServiceImpl implements InscriptionService {
     public void delete(Long id) {
         inscriptionRepository.delete(findOne(id));
     }
+
+    @Override
+    public Set<Inscription> getInscriptionsByTopicId(Long id) {
+        return inscriptionRepository.findAllByTopicId(id);
+    }
 }
+

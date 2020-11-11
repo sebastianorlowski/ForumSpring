@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import pl.orlowski.sebastian.forumspring.dto.TopicDto;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
+import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
@@ -17,12 +18,16 @@ public class TopicController {
 
     private TopicService topicService;
     private UserRepository userRepository;
+    private InscriptionService inscriptionService;
 
     @Autowired
     public TopicController(TopicService topicService,
-                           UserRepository userRepository) {
+                           UserRepository userRepository,
+                           InscriptionService inscriptionService) {
+
         this.topicService = topicService;
         this.userRepository = userRepository;
+        this.inscriptionService = inscriptionService;
     }
 
     /* find topic by id */
@@ -33,6 +38,7 @@ public class TopicController {
             return "redirect:/";
         }
         model.addAttribute("topic", topic);
+        model.addAttribute("inscriptions", inscriptionService.getInscriptionsByTopicId(id));
 
         return "topic";
     }

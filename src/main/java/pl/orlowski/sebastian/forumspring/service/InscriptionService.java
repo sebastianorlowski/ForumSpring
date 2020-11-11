@@ -5,6 +5,7 @@ import pl.orlowski.sebastian.forumspring.dto.InscriptionDto;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 
 import java.util.List;
+import java.util.Set;
 
 public interface InscriptionService {
 
@@ -15,4 +16,6 @@ public interface InscriptionService {
     Inscription findOne(Long id);
 
     void delete(Long id);
+
+    Set<Inscription> getInscriptionsByTopicId(Long id);
 }
