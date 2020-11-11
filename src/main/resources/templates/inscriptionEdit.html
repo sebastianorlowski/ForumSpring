@@ -32,7 +32,7 @@
                         <div>
                             <label for="text">Text</label>
                         </div>
-                        /* get text from inscription by id
+<!--                         get text from inscription by id -->
                         <input type="hidden" th:field="*{id}">
                         <textarea th:field="*{text}" id="text" name="text" class="materialize-textarea" rows="10" cols="80"></textarea>
                         <p th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="red-text">Incorrect inscription!</p>
