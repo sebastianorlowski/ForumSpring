@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new topic</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<nav class="navbar navbar-light" style="background-color: #969bd9;">
+    <span class="navbar-brand">Add new inscription</span>
+</nav>
+
+<div class = "container">
+    <div class = "row">
+        <div class = "col-md6 col-md-offset-3">
+
+            <br><br>
+            <h2>
+                Add new inscription
+            </h2>
+
+            <form method="post" th:action="@{/topic/{id}(id = ${id})}" th:object="${inscription}">
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <br><br>
+                        <div>
+                            <label for="text">Text</label>
+                        </div>
+                        /* get text from inscription by id
+                        <input type="hidden" th:field="*{id}">
+                        <textarea th:field="*{text}" id="text" name="text" class="materialize-textarea" rows="10" cols="80"></textarea>
+                        <p th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="red-text">Incorrect inscription!</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input class="btn waves-effect waves-light" type="submit" name="action" value="Submit" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
