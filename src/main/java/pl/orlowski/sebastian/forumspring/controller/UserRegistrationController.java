@@ -3,6 +3,8 @@ package pl.orlowski.sebastian.forumspring.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.UserService;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/registration")
@@ -38,8 +42,12 @@ public class UserRegistrationController {
 
     /* After registration we will get message about complete */
     @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto userRegistrationDto) {
-        if (userRepository.existsUserByLogin(userRegistrationDto.getLogin())) {
+    public String registerUserAccount(@Valid @ModelAttribute("user") UserRegistrationDto userRegistrationDto,
+                                      Errors errors) {
+       if (errors.hasErrors()) {
+           return "registration";
+       }
+       if (userRepository.existsUserByLogin(userRegistrationDto.getLogin())) {
             return "redirect:/registration?error";
         }
 

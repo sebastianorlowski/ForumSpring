@@ -1,6 +1,9 @@
 package pl.orlowski.sebastian.forumspring.user;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
@@ -11,9 +14,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String login;
-
     private String password;
     private String email;
 
