@@ -43,14 +43,10 @@ public class UserRegistrationController {
     /* After registration we will get message about complete */
     @PostMapping
     public String registerUserAccount(@Valid @ModelAttribute("user") UserRegistrationDto userRegistrationDto,
-                                      Errors errors) {
-       if (errors.hasErrors()) {
-           return "registration";
-       }
-       if (userRepository.existsUserByLogin(userRegistrationDto.getLogin())) {
-            return "redirect:/registration?error";
+                                      BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "registration";
         }
-
         userService.save(userRegistrationDto);
         return "redirect:/registration?success";
     }
