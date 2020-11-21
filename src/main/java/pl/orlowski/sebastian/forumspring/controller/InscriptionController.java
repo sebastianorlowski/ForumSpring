@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.orlowski.sebastian.forumspring.dto.InscriptionDto;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
@@ -32,6 +29,13 @@ public class InscriptionController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("topic/{idTopic}/inscription")
+    public String getInscriptionWindow(@PathVariable Long idTopic, Model model) {
+        Topic topic = topicService.findOne(idTopic);
+        model.addAttribute("inscription", topic);
+        return "inscription";
+    }
+
 //    Edit inscription
     @GetMapping("inscription/{id}")
     public String editInscription(@PathVariable Long id, Model model,
@@ -46,7 +50,7 @@ public class InscriptionController {
 }
 
 //    Add inscription
-    @PostMapping("topic/{idTopic}/inscription")
+    @PostMapping
     public String addNewInscription(@PathVariable Long idTopic,
                                     InscriptionDto inscriptionDto,
                                     Authentication auth) {
