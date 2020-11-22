@@ -11,5 +11,6 @@ import java.util.Set;
 public interface InscriptionRepository extends JpaRepository<Inscription, Long> {
 
     Set<Inscription> findAllByTopicId(Long id);
+    Set<Inscription> findTop5ByOrderByCreatedAtDesc();
 
 }

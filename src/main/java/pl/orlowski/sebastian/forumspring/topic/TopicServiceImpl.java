@@ -39,4 +39,8 @@ public class TopicServiceImpl implements TopicService {
         topicRepository.delete(findOne(id));
     }
 
+    @Override
+    public Set<Topic> findTop5ByOrderByCreatedAtDesc() {
+        return topicRepository.findTop5ByOrderByCreatedAtDesc();
+    }
 }

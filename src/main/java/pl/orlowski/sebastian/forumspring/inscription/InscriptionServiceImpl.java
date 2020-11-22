@@ -42,5 +42,10 @@ public class InscriptionServiceImpl implements InscriptionService {
     public Set<Inscription> getInscriptionsByTopicId(Long id) {
         return inscriptionRepository.findAllByTopicId(id);
     }
+
+    @Override
+    public Set<Inscription> findTop5ByOrderByCreatedAtDesc() {
+        return inscriptionRepository.findTop5ByOrderByCreatedAtDesc();
+    }
 }
 

@@ -18,4 +18,6 @@ public interface InscriptionService {
     void delete(Long id);
 
     Set<Inscription> getInscriptionsByTopicId(Long id);
+
+    Set<Inscription> findTop5ByOrderByCreatedAtDesc();
 }

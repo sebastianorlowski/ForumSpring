@@ -50,7 +50,7 @@ public class InscriptionController {
 }
 
 //    Add inscription
-    @PostMapping
+    @PostMapping("topic/{idTopic}")
     public String addNewInscription(@PathVariable Long idTopic,
                                     InscriptionDto inscriptionDto,
                                     Authentication auth) {

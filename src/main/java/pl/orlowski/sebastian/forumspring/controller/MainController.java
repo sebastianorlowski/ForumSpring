@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
@@ -13,15 +14,19 @@ import pl.orlowski.sebastian.forumspring.topic.Topic;
 public class MainController {
 
     private TopicService topicService;
+    private InscriptionService inscriptionService;
 
     @Autowired
-    public MainController(TopicService topicService) {
+    public MainController(TopicService topicService,
+                          InscriptionService inscriptionService) {
         this.topicService = topicService;
+        this.inscriptionService = inscriptionService;
     }
 
     @GetMapping("/")
     public String topicList(Model model) {
-        model.addAttribute("topicList", topicService.findAll());
+        model.addAttribute("newInscriptionList", inscriptionService.findTop5ByOrderByCreatedAtDesc());
+        model.addAttribute("newTopicList", topicService.findTop5ByOrderByCreatedAtDesc());
         return "index";
     }
 

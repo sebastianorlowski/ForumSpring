@@ -1,8 +1,10 @@
 package pl.orlowski.sebastian.forumspring.topic;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.orlowski.sebastian.forumspring.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity
@@ -21,6 +23,7 @@ public class Topic {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private User user;
+
     private Date createdAt;
 
     public Topic(Long id, String title, String text, User user, Date createdAt) {
