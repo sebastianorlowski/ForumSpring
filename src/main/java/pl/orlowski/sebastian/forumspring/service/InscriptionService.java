@@ -19,5 +19,5 @@ public interface InscriptionService {
 
     Set<Inscription> getInscriptionsByTopicId(Long id);
 
-    Set<Inscription> findTop5ByOrderByCreatedAtDesc();
+    Set<Inscription> findInscriptionsByDate();
 }

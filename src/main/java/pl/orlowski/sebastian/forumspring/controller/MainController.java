@@ -25,8 +25,8 @@ public class MainController {
 
     @GetMapping("/")
     public String topicList(Model model) {
-        model.addAttribute("newInscriptionList", inscriptionService.findTop5ByOrderByCreatedAtDesc());
-        model.addAttribute("newTopicList", topicService.findTop5ByOrderByCreatedAtDesc());
+        model.addAttribute("newInscriptionList", inscriptionService.findInscriptionsByDate());
+        model.addAttribute("newTopicList", topicService.findTopicsByDate());
         return "index";
     }
 

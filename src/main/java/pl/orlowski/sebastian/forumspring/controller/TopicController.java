@@ -34,6 +34,14 @@ public class TopicController {
         this.topicRepository = topicRepository;
     }
 
+    /* Get Topic list */
+    @GetMapping("/all")
+    public String getAllTopics(Model model) {
+        model.addAttribute("topicList", topicService.findAllByDateAsc());
+
+        return "allTopics";
+    }
+
     /* find topic by id */
     @GetMapping("{id}")
     public String getTopicWindow(@PathVariable Long id, Model model) {

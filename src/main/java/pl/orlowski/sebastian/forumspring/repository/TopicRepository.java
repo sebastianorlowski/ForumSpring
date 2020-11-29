@@ -9,6 +9,7 @@ import java.util.Set;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
 
+    Set<Topic> findAllByOrderByCreatedAtDesc();
     Set<Topic> findTop5ByOrderByCreatedAtDesc();
 
 }

@@ -10,10 +10,12 @@ public interface TopicService {
 
     List<Topic> findAll();
 
-    Set<Topic> findTop5ByOrderByCreatedAtDesc();
+    Set<Topic> findTopicsByDate();
 
     Topic findOne(Long id);
 
     void delete(Long id);
+
+    Set<Topic> findAllByDateAsc();
 
 }

@@ -40,7 +40,12 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Set<Topic> findTop5ByOrderByCreatedAtDesc() {
+    public Set<Topic> findTopicsByDate() {
         return topicRepository.findTop5ByOrderByCreatedAtDesc();
+    }
+
+    @Override
+    public Set<Topic> findAllByDateAsc() {
+        return topicRepository.findAllByOrderByCreatedAtDesc();
     }
 }

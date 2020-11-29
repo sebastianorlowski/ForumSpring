@@ -44,8 +44,9 @@ public class InscriptionServiceImpl implements InscriptionService {
     }
 
     @Override
-    public Set<Inscription> findTop5ByOrderByCreatedAtDesc() {
+    public Set<Inscription> findInscriptionsByDate() {
         return inscriptionRepository.findTop5ByOrderByCreatedAtDesc();
     }
+
 }
 

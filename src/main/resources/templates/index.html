@@ -7,6 +7,7 @@
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
               crossorigin="anonymous">
+    <link th:href="@{/main.css}" rel="stylesheet" />
 </head>
 <body>
 
@@ -15,8 +16,11 @@
 
     <div id="navbar" class="collapse navbar-collapse">
 
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-right">
             <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/topic/all}"><n1>Topics</n1></a></li>
         </ul>
     </div>
 </nav>
@@ -27,6 +31,10 @@
 
 <div class="container my-2">
     <a th:href="@{/newTopic}" class="btn btn-success">Create new topic</a>
+</div>
+
+<div class="container my-3">
+    <a th:href="@{/topic/search}" class="btn btn-success">Find topic</a>
 </div>
 
 <div align="center" class="container my-2">
@@ -40,11 +48,13 @@
         </tr>
         </thead>
         <tbody>
-        <trgi th:each="inscription : ${newInscriptionList}">
-            <td th:text="${inscription.topic.getTitle()}"></td>
-            <td th:width="200" th:text="${#dates.format(inscription.createdAt, 'HH:mm | dd-MM-yyyy')}"></td>
-            <td th:width="200" th:text="${inscription.user.getLogin()}"></td>
-        </trgi>
+        <tr th:each="inscription : ${newInscriptionList}">
+            <td>
+            <a th:href="@{/topic/{id}(id = ${inscription.topic.id})}" th:text="${inscription.topic.title}"></a>
+            </td>
+            <td th:width="200" th:text="${#dates.format(inscription.createdAt, 'dd-MM-yyyy | HH:mm')}"></td>
+            <td th:width="200" th:text="${inscription.user.login}"></td>
+        </tr>
         </tbody>
     </table>
 
@@ -62,9 +72,11 @@
         </thead>
         <tbody>
         <tr th:each="topic : ${newTopicList}">
-            <td th:text="${topic.title}"></td>
-            <td th:width="200" th:text="${#dates.format(topic.createdAt, 'HH:mm | dd-MM-yyyy')}"></td>
-            <td th:width="200" th:text="${topic.user.getLogin()}"></td>
+            <td>
+                <a th:href="@{/topic/{id}(id = ${topic.id})}" th:text="${topic.title}"></a>
+            </td>
+            <td th:width="200" th:text="${#dates.format(topic.createdAt, 'dd-MM-yyyy | HH:mm')}"></td>
+            <td th:width="200" th:text="${topic.user.login}"></td>
         </tr>
         </tbody>
     </table>
