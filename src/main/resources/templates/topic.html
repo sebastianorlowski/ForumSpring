@@ -11,17 +11,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-light" style="background-color: #969bd9;">
-    <span class="navbar-brand">Topic page</span>
-
-    <div id="navbar" class="collapse navbar-collapse">
-
-        <ul class="nav navbar-nav">
-            <li><a th:href="@{/topic/{id}/inscription(id = ${topic.id})}">Add new inscription</a></li>
-        </ul>
-
-    </div>
-</nav>
+<div th:insert="navigation :: nav"></div>
 
 <div class = "container">
     <div class = "row">

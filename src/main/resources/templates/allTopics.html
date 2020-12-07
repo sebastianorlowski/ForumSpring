@@ -11,21 +11,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-light" style="background-color: #969bd9;">
-    <span class="navbar-brand"><a th:href="@{/}"><n1>Home Page</n1></a></span>
-
-    <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-
-            <li class="nav-item"><a th:href="@{/topic/all}"><n1>Topics</n1></a></li>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item"><a th:href="@{/logout}"><n1>LOGOUT</n1></a></li>
-        </ul>
-    </div>
-</nav>
-
+<div th:insert="navigation :: nav"></div>
 
 <div class="container">
     <h1>Welcome <span sec:authentication="principal.username"> </span></h1>
@@ -51,10 +37,38 @@
                 <a th:href="@{/topic/{id}(id = ${topic.id})}" th:text="${topic.title}"></a>
             </td>
             <td th:width="200" th:text="${#dates.format(topic.createdAt, 'dd-MM-yyyy | HH:mm')}"></td>
-            <td th:width="200" th:text="${topic.user.login}"></td>
+            <td th:width="200" th:text="${topic.user.getLogin()}"></td>
         </tr>
         </tbody>
     </table>
+
+    <div th:if = "${totalPages > 1}">
+        <div class = "row col-sm-10">
+            <div class = "col-sm-2">
+                Total topics: [[${totalElements}]]
+            </div>
+            <div class = "col-sm-1">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if="${currentPage != i}" th:href="@{'/topic/page/' + ${i}}">[[${i}]]</a>
+						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					</span>
+            </div>
+
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/topic/page/' + ${currentPage + 1}}">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+            </div>
+
+            <div class = "col-sm-1">
+                <a th:if="${currentPage > 1}" th:href="@{'/topic/page/' + ${currentPage - 1}}">Previous</a>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/topic/page/' + ${totalPages}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
 
 </div>
 

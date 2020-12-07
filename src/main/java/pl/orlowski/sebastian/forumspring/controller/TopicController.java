@@ -1,49 +1,51 @@
 package pl.orlowski.sebastian.forumspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
 import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
+import pl.orlowski.sebastian.forumspring.user.User;
+
+import java.util.List;
 
 @Controller
-@RequestMapping("/topic/")
+@RequestMapping("/topic")
 public class TopicController {
 
     private TopicService topicService;
-    private UserRepository userRepository;
-    private InscriptionService inscriptionService;
     private TopicRepository topicRepository;
+    private InscriptionService inscriptionService;
+    private UserRepository userRepository;
 
     @Autowired
     public TopicController(TopicService topicService,
-                           UserRepository userRepository,
+                           TopicRepository topicRepository,
                            InscriptionService inscriptionService,
-                           TopicRepository topicRepository) {
-
+                           UserRepository userRepository) {
         this.topicService = topicService;
-        this.userRepository = userRepository;
-        this.inscriptionService = inscriptionService;
         this.topicRepository = topicRepository;
+        this.inscriptionService = inscriptionService;
+        this.userRepository = userRepository;
     }
 
     /* Get Topic list */
-    @GetMapping("/all")
+    @GetMapping("/page")
     public String getAllTopics(Model model) {
-        model.addAttribute("topicList", topicService.findAllByDateAsc());
-
-        return "allTopics";
+        return findPaginated(1, model);
     }
 
     /* find topic by id */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public String getTopicWindow(@PathVariable Long id, Model model) {
         Topic topic = topicService.findOne(id);
         if (topicRepository.existsById(id)) {
@@ -77,6 +79,21 @@ public class TopicController {
         topicService.delete(id);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/page/{pageNumber}")
+    public String findPaginated(@PathVariable ("pageNumber") int pageNumber, Model model) {
+        int pageSize = 10;
+
+        Page<Topic> page = topicService.findPaginated(pageNumber, pageSize);
+        List<Topic> listTopic = page.getContent();
+
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalElements", page.getTotalElements());
+        model.addAttribute("topicList",  listTopic);
+
+        return "allTopics";
     }
 
 }

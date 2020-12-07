@@ -11,7 +11,6 @@ import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
-import pl.orlowski.sebastian.forumspring.user.User;
 
 @Controller
 public class InscriptionController {

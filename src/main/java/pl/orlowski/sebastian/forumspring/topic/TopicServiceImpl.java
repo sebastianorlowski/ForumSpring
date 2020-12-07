@@ -1,6 +1,10 @@
 package pl.orlowski.sebastian.forumspring.topic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
@@ -45,7 +49,13 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Set<Topic> findAllByDateAsc() {
+    public List<Topic> findAllByDateAsc() {
         return topicRepository.findAllByOrderByCreatedAtDesc();
+    }
+
+    @Override
+    public Page<Topic> findPaginated(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
+        return this.topicRepository.findAll(pageable);
     }
 }
