@@ -5,16 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
+import org.springframework.web.bind.annotation.*;
 import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
-import pl.orlowski.sebastian.forumspring.user.User;
 
 import java.util.List;
 
@@ -88,12 +84,18 @@ public class TopicController {
         Page<Topic> page = topicService.findPaginated(pageNumber, pageSize);
         List<Topic> listTopic = page.getContent();
 
+        model.addAttribute("pageNo", page.getNumber());
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalElements", page.getTotalElements());
         model.addAttribute("topicList",  listTopic);
 
         return "allTopics";
+    }
+
+    @PostMapping("/page/{pageNumber}")
+    public String goToPage(@RequestParam ("pageNumber") int pageNumber) {
+        return "redirect:/topic/page/" + pageNumber;
     }
 
 }

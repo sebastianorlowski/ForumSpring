@@ -13,10 +13,6 @@
 
 <div th:insert="navigation :: nav"></div>
 
-<div class="container">
-    <h1>Welcome <span sec:authentication="principal.username"> </span></h1>
-</div>
-
 <div class="container my-2">
     <a th:href="@{/newTopic}" class="btn btn-success">Create new topic</a>
 </div>
@@ -42,33 +38,41 @@
         </tbody>
     </table>
 
-    <div th:if = "${totalPages > 1}">
+    <n1><div th:if = "${totalPages > 1}">
         <div class = "row col-sm-10">
             <div class = "col-sm-2">
                 Total topics: [[${totalElements}]]
             </div>
-            <div class = "col-sm-1">
-					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						<a th:if="${currentPage != i}" th:href="@{'/topic/page/' + ${i}}">[[${i}]]</a>
-						<span th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
-					</span>
+            <div class = "col-sm-2">
+                        [[${currentPage}]] || [[${totalPages}]]
             </div>
 
             <div class = "col-sm-1">
                 <a th:if="${currentPage < totalPages}" th:href="@{'/topic/page/' + ${currentPage + 1}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
+                <a th:if="${currentPage == totalPages}" th:href="@{'/topic/page/' + 1}">First</a>
             </div>
 
             <div class = "col-sm-1">
                 <a th:if="${currentPage > 1}" th:href="@{'/topic/page/' + ${currentPage - 1}}">Previous</a>
             </div>
 
-            <div class="col-sm-1">
+           <div class="col-sm-1">
                 <a th:if="${currentPage < totalPages}" th:href="@{'/topic/page/' + ${totalPages}}">Last</a>
                 <span th:unless="${currentPage < totalPages}">Last</span>
             </div>
+
+
+
+            <form method="post" th:action="@{/topic/page/__${pageNumber}__}">
+                <div class="col-sm-4">
+                    <input type="number" th:value="pageNumber" name="pageNumber" class="form-control">
+                    <button type="submit" class="btn btn-success">Go</button>
+                </div>
+            </form>
+
+
         </div>
-    </div>
+    </div></n1>
 
 </div>
 
