@@ -36,12 +36,12 @@ public class InscriptionController {
     }
 
 //    Edit inscription
-    @GetMapping("inscription/{id}")
+    @GetMapping("/inscription/{id}")
     public String editInscription(@PathVariable Long id, Model model,
                                   Authentication auth) {
         Inscription inscription = inscriptionService.findOne(id);
         if (inscription.getUser() != userRepository.findByLogin(auth.getName())) {
-            return "redirect:/topic/" + inscription.getTopic();
+            return "redirect:/topic/" + inscription.getTopic().getId();
         }
         model.addAttribute("inscription", inscription);
 
@@ -69,13 +69,12 @@ public class InscriptionController {
     public String deleteInscription(@PathVariable Long id,
                                     Authentication auth) {
         Inscription inscription = inscriptionService.findOne(id);
-        Long topicId = inscription.getId();
-
+        Topic topic = inscription.getTopic();
         if (inscription.getUser() != userRepository.findByLogin(auth.getName())) {
-            return "redirect:/topic/" + id;
+            return "redirect:/topic/" + topic.getId();
         }
         inscriptionService.delete(id);
 
-        return "redirect:/topic/" + topicId;
+        return "redirect:/topic/" + topic.getId();
     }
 }

@@ -35,7 +35,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 
     @Override
     public void delete(Long id) {
-        inscriptionRepository.delete(findOne(id));
+        inscriptionRepository.deleteById(id);
     }
 
     @Override

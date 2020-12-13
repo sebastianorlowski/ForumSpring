@@ -46,6 +46,7 @@ public class TopicController {
         Topic topic = topicService.findOne(id);
         if (topicRepository.existsById(id)) {
             model.addAttribute("topic", topic);
+            model.addAttribute("inscriptions", inscriptionService.getInscriptionsByTopicId(id));
             return "topic";
         }
         return "redirect:/";

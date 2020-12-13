@@ -1,10 +1,8 @@
 package pl.orlowski.sebastian.forumspring.topic;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import pl.orlowski.sebastian.forumspring.user.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity

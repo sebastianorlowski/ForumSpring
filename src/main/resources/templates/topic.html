@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -8,36 +8,85 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
           crossorigin="anonymous">
+    <link th:href="@{/main.css}" rel="stylesheet" />
 </head>
 <body>
 
 <div th:insert="navigation :: nav"></div>
 
-<div class = "container">
+<div align="center" class = "container">
     <div class = "row">
-        <div class = "col-md6 col-md-offset-3">
+        <div class = "col-md3 col-md-offset-0">
 
-            <h5>
-                <a th:href="@{/topic/{id}(id = topic.id)}"></a>
-                <span th:text="${topic.title}"></span>
-            </h5>
+            <table border="1" style="width:60pc" class="table table-bordered table-striped">
+                <thead>
+                <tr style="background-color: lightsteelblue">
+                    <th>Topic name</th>
+                    <th>Created</th>
+                    <th>Login</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <td th:width="300px" th:text="${topic.title}"></td>
+                    <td th:width="200px" th:text="${#dates.format(topic.createdAt, 'dd-MM-yyyy | HH:mm')}"></td>
+                    <td th:width="200px" th:text="${topic.user.getLogin()}"></td>
+                </tbody>
+                <td colspan="3" th:text="${topic.text}"></td>
+            </table>
 
-            <div class="col s10">
-                <div class="row">
-                    <div class="col s11">
-                        Stworzony
-                        <p th:text="${topic.createdAt} ? ${#calendars.format(topic.createdAt, 'HH:mm dd MMMM yyyy')}"></p>
-                        <p th:utext="${#strings.replace(topic.text,T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
-                        <div class="divider"></div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <a th:href="@{/topic/{id}/inscription(id = ${topic.id})}" class="btn btn-success">Add inscription</a>
-            </div>
         </div>
     </div>
 </div>
+<div align="center" class = "container">
+            <table border="1" th:each="inscription : ${inscriptions}" style="width: 60pc" class="table table-bordered table-striped">
+                <thead>
+                <tr style="background-color: lightsteelblue; font-weight: bold">
+                    <td style="width: 80pc" th:text="'Created by ' + ${inscription.user.login}"></td>
+                    <td style="width: 20pc" th:text="${#dates.format(inscription.createdAt, 'HH:mm | dd-MM-yyyy')}"></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="background-color: lemonchiffon">
+                <td colspan="2" th:text="${inscription.text}"></td>
+
+                </tr>
+                </tbody>
+                <div th:if="${#authentication.name} == ${inscription.user.login}">
+                <tfoot>
+                <td colspan="2" style="font-size: smaller">
+                <a th:href="@{/inscription/{id}(id = ${inscription.id})}" >Edit</a> |  |
+                        <a href="" data-toggle="modal" data-target="#myModal">Delete</a>
+                        <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p>Do you want to delete this inscription?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                                        <a th:href="@{/inscription/delete/{id}(id = ${inscription.id})}" class="btn btn-danger"
+                                           >Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </td>
+                </tfoot>
+                </div>
+            </table>
+
+</div>
+
+
+<!--            <div class="col-sm-10">-->
+<!--                <a th:href="@{/topic/{id}/inscription(id = ${topic.id})}" class="btn btn-success pull-right">Add inscription</a>-->
+<!--            </div>-->
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </body>
 </html>
