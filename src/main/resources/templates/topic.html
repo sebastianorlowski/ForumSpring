@@ -11,6 +11,8 @@
     <link th:href="@{/main.css}" rel="stylesheet" />
 </head>
 <body>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <div th:insert="navigation :: nav"></div>
 
@@ -55,22 +57,21 @@
                 <div th:if="${#authentication.name} == ${inscription.user.login}">
                 <tfoot>
                 <td colspan="2" style="font-size: smaller">
-                <a th:href="@{/inscription/{id}(id = ${inscription.id})}" >Edit</a> |  |
-                        <a href="" data-toggle="modal" data-target="#myModal">Delete</a>
-                        <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <p>Do you want to delete this inscription?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                                        <a th:href="@{/inscription/delete/{id}(id = ${inscription.id})}" class="btn btn-danger"
-                                           >Delete</a>
-                                    </div>
+                    <a th:href="@{/inscription/{id}(id = ${inscription.id})}" >Edit</a> |  |
+                    <a href="" data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning' + ${inscription.id}">Delete</a>
+                    <div class="modal modal-warning fade in" id="myModal" th:id="modal-warning+${inscription.id}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h3>Are you sure you want to delete this inscription?</h3>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Back</button>
+                                    <a type="button" class="btn btn-danger" th:href="@{/inscription/delete/{id}(id = ${inscription.id})}"></i>Delete</a>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </td>
                 </tfoot>
                 </div>
@@ -78,15 +79,11 @@
 
 </div>
 
-
-<!--            <div class="col-sm-10">-->
-<!--                <a th:href="@{/topic/{id}/inscription(id = ${topic.id})}" class="btn btn-success pull-right">Add inscription</a>-->
-<!--            </div>-->
+            <div class="col-sm-10">
+                <a th:href="@{/topic/{id}/inscription(id = ${topic.id})}" class="btn btn-success pull-right">Add inscription</a>
+            </div>
         </div>
     </div>
 </div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </body>
 </html>
