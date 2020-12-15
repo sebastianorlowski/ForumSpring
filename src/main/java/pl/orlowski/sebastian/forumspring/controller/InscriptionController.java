@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.orlowski.sebastian.forumspring.dto.InscriptionDto;
+import pl.orlowski.sebastian.forumspring.dto.TopicDto;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
@@ -36,7 +37,7 @@ public class InscriptionController {
     }
 
 //    Edit inscription
-    @GetMapping("/inscription/{id}")
+    @GetMapping("/inscription/edit/{id}")
     public String editInscription(@PathVariable Long id, Model model,
                                   Authentication auth) {
         Inscription inscription = inscriptionService.findOne(id);

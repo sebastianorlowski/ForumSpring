@@ -57,7 +57,7 @@
                 <div th:if="${#authentication.name} == ${inscription.user.login}">
                 <tfoot>
                 <td colspan="2" style="font-size: smaller">
-                    <a th:href="@{/inscription/{id}(id = ${inscription.id})}" >Edit</a> |  |
+                    <a th:href="@{/inscription/edit/{id}(id = ${inscription.id})}" >Edit</a> |  |
                     <a href="" data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning' + ${inscription.id}">Delete</a>
                     <div class="modal modal-warning fade in" id="myModal" th:id="modal-warning+${inscription.id}">
                         <div class="modal-dialog">
