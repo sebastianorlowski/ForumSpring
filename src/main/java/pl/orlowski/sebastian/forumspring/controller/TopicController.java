@@ -12,8 +12,6 @@ import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
-import javax.persistence.PrePersist;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -34,12 +32,6 @@ public class TopicController {
         this.topicRepository = topicRepository;
         this.inscriptionService = inscriptionService;
         this.userRepository = userRepository;
-    }
-
-    /* Get Topic list */
-    @GetMapping("/page")
-    public String getAllTopics(Model model) {
-        return findPaginated(1, model);
     }
 
     /* find topic by id */
@@ -73,7 +65,6 @@ public class TopicController {
         topic.setId(id);
         topic.setTitle(topic.getTitle());
         topic.setUser(topic.getUser());
-        topic.setCreatedAt();
         topic.setText(text);
 
         topicRepository.save(topic);
@@ -94,8 +85,14 @@ public class TopicController {
         return "redirect:/";
     }
 
+    /* Get Topic list */
+    @GetMapping("/page")
+    public String getAllTopics(Model model) {
+        return findPaginated(1, model);
+    }
+
     @GetMapping("/page/{pageNumber}")
-    public String findPaginated(@PathVariable ("pageNumber") int pageNumber, Model model) {
+    public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model) {
         int pageSize = 10;
 
         Page<Topic> page = topicService.findPaginated(pageNumber, pageSize);
@@ -111,8 +108,7 @@ public class TopicController {
     }
 
     @PostMapping("/page/{pageNumber}")
-    public String goToPage(@RequestParam ("pageNumber") int pageNumber) {
+    public String goToPage(@RequestParam("pageNumber") int pageNumber) {
         return "redirect:/topic/page/" + pageNumber;
     }
-
 }

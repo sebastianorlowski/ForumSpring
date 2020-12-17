@@ -18,9 +18,8 @@
         <div class = "col-md6 col-md-offset-3">
 
             <br><br>
-            <h2>Edit topic</h2>
-
             <form method="post" th:action="@{/topic/update/{id}(id = ${topic.id})}" th:object="${topic}">
+                <h3>Title: <span th:text="${topic.title}"></span></h3>
                 <div class="row">
                     <div class="input-field col s12">
                         <br><br>

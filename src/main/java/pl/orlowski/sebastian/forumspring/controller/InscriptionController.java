@@ -30,26 +30,13 @@ public class InscriptionController {
     }
 
     @GetMapping("topic/{idTopic}/inscription")
-    public String getInscriptionWindow(@PathVariable Long idTopic, Model model) {
+    public String getNewInscriptionWindow(@PathVariable Long idTopic, Model model) {
         Topic topic = topicService.findOne(idTopic);
         model.addAttribute("inscription", topic);
         return "inscription";
     }
 
-//    Edit inscription
-    @GetMapping("/inscription/edit/{id}")
-    public String editInscription(@PathVariable Long id, Model model,
-                                  Authentication auth) {
-        Inscription inscription = inscriptionService.findOne(id);
-        if (inscription.getUser() != userRepository.findByLogin(auth.getName())) {
-            return "redirect:/topic/" + inscription.getTopic().getId();
-        }
-        model.addAttribute("inscription", inscription);
-
-        return "inscriptionEdit";
-}
-
-//    Add inscription
+    //    Add inscription
     @PostMapping("topic/{idTopic}")
     public String addNewInscription(@PathVariable Long idTopic,
                                     InscriptionDto inscriptionDto,
@@ -63,6 +50,32 @@ public class InscriptionController {
         inscriptionService.save(inscription);
 
         return "redirect:/topic/" + idTopic;
+    }
+
+//    Inscription window
+    @GetMapping("/inscription/edit/{id}")
+    public String editInscription(@PathVariable Long id, Model model,
+                                  Authentication auth) {
+        Inscription inscription = inscriptionService.findOne(id);
+        if (inscription.getUser() != userRepository.findByLogin(auth.getName())) {
+            return "redirect:/topic/" + inscription.getTopic().getId();
+        }
+        model.addAttribute("inscription", inscription);
+
+        return "inscriptionEdit";
+}
+
+    @PostMapping("/inscription/update/{id}")
+    public String updateInscription(@PathVariable Long id, String text) {
+        Inscription inscription = inscriptionService.findOne(id);
+        inscription.setId(id);
+        inscription.setUser(inscription.getUser());
+        inscription.setTopic(inscription.getTopic());
+        inscription.setText(text);
+
+        inscriptionService.save(inscription);
+
+        return "redirect:/topic/" + inscription.getTopic().getId();
     }
 
 //    Delete inscription
