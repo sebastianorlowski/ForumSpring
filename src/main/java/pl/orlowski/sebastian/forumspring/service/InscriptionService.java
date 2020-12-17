@@ -20,4 +20,5 @@ public interface InscriptionService {
     Set<Inscription> getInscriptionsByTopicId(Long id);
 
     Set<Inscription> findInscriptionsByDate();
+
 }

@@ -24,7 +24,7 @@
                 Edit inscription
             </h2>
 
-            <form method="post" th:action="@{/topic/{id}(id = ${id})}" th:object="${inscription}">
+            <form method="post" th:action="@{/topic/{id}(id = ${inscription.topic.id})}" th:object="${inscription}">
 
                 <div class="row">
                     <div class="input-field col s12">

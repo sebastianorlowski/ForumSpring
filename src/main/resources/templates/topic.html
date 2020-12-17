@@ -34,6 +34,12 @@
                     <td th:width="200px" th:text="${topic.user.getLogin()}"></td>
                 </tbody>
                 <td colspan="3" th:text="${topic.text}"></td>
+                <div th:if="${#authentication.name} == ${topic.user.login}">
+                    <tr>
+                    <td colspan="3" style="font-size: smaller">
+                    <a th:href="@{/topic/edit/{id}(id = ${topic.id})}" >Edit</a>
+                    </td>
+                    </tr>
             </table>
 
 

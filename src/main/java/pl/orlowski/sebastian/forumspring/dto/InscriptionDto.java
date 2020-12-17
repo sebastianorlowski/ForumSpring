@@ -8,18 +8,24 @@ import java.util.Date;
 
 public class InscriptionDto {
 
+    private Long id;
     private String text;
     private User user;
     private Topic topic;
 
-    public InscriptionDto(String text, User user, Topic topic) {
+    public InscriptionDto(Long id, String text, User user, Topic topic) {
+        this.id = id;
         this.text = text;
         this.user = user;
         this.topic = topic;
     }
 
-    public InscriptionDto() {
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getText() {
@@ -45,5 +51,4 @@ public class InscriptionDto {
     public void setTopic(Topic topic) {
         this.topic = topic;
     }
-
 }

@@ -12,6 +12,8 @@ import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
+import javax.persistence.PrePersist;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -63,6 +65,20 @@ public class TopicController {
         }
         model.addAttribute("topic", topic);
         return "topicEdit";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateTopic(@PathVariable Long id, String text) {
+        Topic topic = topicRepository.findById(id).get();
+        topic.setId(id);
+        topic.setTitle(topic.getTitle());
+        topic.setUser(topic.getUser());
+        topic.setCreatedAt();
+        topic.setText(text);
+
+        topicRepository.save(topic);
+
+        return "redirect:/topic/" + topic.getId();
     }
 
 //  delete topic
