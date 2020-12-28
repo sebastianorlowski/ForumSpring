@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body>
+
+<div th:insert="navigation :: nav"></div>
+
+<div align="center" class="container my-2">
+    <h3>New Topics</h3>
+    <table border="1" style="width:800px" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Topic name</th>
+            <th>Created</th>
+            <th>Login</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="topic : ${searchResult}">
+            <td>
+                <a th:href="@{/topic/{id}(id = ${topic.id})}" th:text="${topic.title}"></a>
+            </td>
+            <td th:width="200" th:text="${#dates.format(topic.createdAt, 'dd-MM-yyyy | HH:mm')}"></td>
+            <td th:width="200" th:text="${topic.user.getLogin()}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</body>
+</html>

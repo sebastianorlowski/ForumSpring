@@ -23,5 +23,7 @@ public interface TopicService {
     List<Topic> findAllByDateAsc();
 
     Page<Topic> findPaginated(int pageNumber, int pageSize);
+    
+    List<Topic> findTopicsByRegex(String regex);
 
 }

@@ -3,3 +3,11 @@ n1 {
     font-weight: bold;
     font-size: 15px;
 }
+
+centered {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-60%, -50%);
+}

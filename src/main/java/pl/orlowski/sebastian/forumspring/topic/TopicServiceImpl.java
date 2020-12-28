@@ -10,6 +10,7 @@ import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -63,4 +64,17 @@ public class TopicServiceImpl implements TopicService {
     public boolean existById(Long id) {
         return topicRepository.existsById(id);
     }
+
+    @Override
+    public List<Topic> findTopicsByRegex(String regex) {
+        List<Topic> topicRegex = new ArrayList<>();
+        String pattern = ".*" + regex.toLowerCase() + ".*";
+        for (Topic t : findAll()) {
+            if (t.getTitle().toLowerCase().matches(pattern)) {
+                topicRegex.add(t);
+            }
+        }
+        return topicRegex;
+    }
+
 }
