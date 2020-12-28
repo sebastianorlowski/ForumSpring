@@ -19,13 +19,10 @@ import javax.validation.Valid;
 public class UserRegistrationController {
 
     private UserService userService;
-    private UserRepository userRepository;
 
     @Autowired
-    public UserRegistrationController(UserService userService,
-                                      UserRepository userRepository) {
+    public UserRegistrationController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping

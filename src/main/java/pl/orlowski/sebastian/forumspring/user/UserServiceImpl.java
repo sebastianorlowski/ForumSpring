@@ -64,4 +64,9 @@ public class UserServiceImpl implements UserService {
 //        simplegrantedauthority and we pass roles name to this object and finally we collected stream to the list
        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
     }
+
+    @Override
+    public User findByLogin(String login) {
+        return userRepository.findByLogin(login);
+    }
 }

@@ -1,6 +1,7 @@
 package pl.orlowski.sebastian.forumspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,22 +12,25 @@ import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
+import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
+
+import java.util.List;
 
 @Controller
 public class InscriptionController {
 
     private InscriptionService inscriptionService;
     private TopicService topicService;
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     public InscriptionController(InscriptionService inscriptionService,
                                  TopicService topicService,
-                                 UserRepository userRepository) {
+                                 UserService userService) {
         this.inscriptionService = inscriptionService;
         this.topicService = topicService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("topic/{idTopic}/inscription")
@@ -45,7 +49,7 @@ public class InscriptionController {
         Inscription inscription = new Inscription();
         inscription.setText(inscriptionDto.getText());
         inscription.setTopic(topic);
-        inscription.setUser(userRepository.findByLogin(auth.getName()));
+        inscription.setUser(userService.findByLogin(auth.getName()));
 
         inscriptionService.save(inscription);
 
@@ -57,7 +61,7 @@ public class InscriptionController {
     public String editInscription(@PathVariable Long id, Model model,
                                   Authentication auth) {
         Inscription inscription = inscriptionService.findOne(id);
-        if (inscription.getUser() != userRepository.findByLogin(auth.getName())) {
+        if (inscription.getUser() != userService.findByLogin(auth.getName())) {
             return "redirect:/topic/" + inscription.getTopic().getId();
         }
         model.addAttribute("inscription", inscription);
@@ -84,11 +88,12 @@ public class InscriptionController {
                                     Authentication auth) {
         Inscription inscription = inscriptionService.findOne(id);
         Topic topic = inscription.getTopic();
-        if (inscription.getUser() != userRepository.findByLogin(auth.getName())) {
+        if (inscription.getUser() != userService.findByLogin(auth.getName())) {
             return "redirect:/topic/" + topic.getId();
         }
         inscriptionService.delete(id);
 
         return "redirect:/topic/" + topic.getId();
     }
+
 }

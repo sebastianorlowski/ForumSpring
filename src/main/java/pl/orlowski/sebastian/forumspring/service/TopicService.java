@@ -18,6 +18,8 @@ public interface TopicService {
 
     void delete(Long id);
 
+    boolean existById(Long id);
+
     List<Topic> findAllByDateAsc();
 
     Page<Topic> findPaginated(int pageNumber, int pageSize);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
+import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.topic.NewTopic;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
@@ -19,13 +20,13 @@ public class NewTopicController {
 
     private TopicService topicService;
 
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     public NewTopicController(TopicService topicService,
-                              UserRepository userRepository) {
+                              UserService userService) {
         this.topicService = topicService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -37,7 +38,7 @@ public class NewTopicController {
     @PostMapping
     public String createNewTopic(NewTopic newTopic, Authentication auth) {
         Topic topic = new Topic();
-        topic.setUser(userRepository.findByLogin(auth.getName()));
+        topic.setUser(userService.findByLogin(auth.getName()));
         topic.setTitle(newTopic.getTitle());
         topic.setText(newTopic.getText());
 

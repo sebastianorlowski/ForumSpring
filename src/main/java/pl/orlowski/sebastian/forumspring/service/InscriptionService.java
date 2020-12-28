@@ -1,5 +1,6 @@
 package pl.orlowski.sebastian.forumspring.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.dto.InscriptionDto;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
@@ -20,5 +21,7 @@ public interface InscriptionService {
     Set<Inscription> getInscriptionsByTopicId(Long id);
 
     Set<Inscription> findInscriptionsByDate();
+
+    Page<Inscription> findPaginated(int pageNumber, int pageSize, Long topicId);
 
 }

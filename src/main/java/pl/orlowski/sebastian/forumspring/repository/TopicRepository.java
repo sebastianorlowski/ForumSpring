@@ -13,4 +13,5 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
 
     List<Topic> findAllByOrderByCreatedAtDesc();
     Set<Topic> findTop5ByOrderByCreatedAtDesc();
+
 }

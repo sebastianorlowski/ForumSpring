@@ -47,7 +47,7 @@
     </div>
 </div>
 <div align="center" class = "container">
-            <table border="1" th:each="inscription : ${inscriptions}" style="width: 60pc" class="table table-bordered table-striped">
+            <table border="1" th:each="inscription : ${inscriptionList}" style="width: 60pc" class="table table-bordered table-striped">
                 <thead>
                 <tr style="background-color: lightsteelblue; font-weight: bold">
                     <td style="width: 80pc" th:text="'Created by ' + ${inscription.user.login}"></td>
@@ -83,8 +83,41 @@
                 </div>
             </table>
 
-</div>
+    <n1><div th:if = "${totalPages > 1}">
+        <div class = "row col-sm-10">
+            <div class = "col-sm-3">
+                Total inscriptions: [[${totalElements}]]
+            </div>
+            <div class = "col-sm-2">
+                [[${currentPage}]] || [[${totalPages}]]
+            </div>
 
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/topic/{id}/page/' + ${currentPage + 1}(id = ${topic.id})}">Next</a>
+                <a th:if="${currentPage == totalPages}" th:href="@{'/topic/{id}/page/' + 1(id = ${topic.id})}">First</a>
+            </div>
+
+            <div class = "col-sm-1">
+                <a th:if="${currentPage > 1}" th:href="@{'/topic/{id}/page/' + ${currentPage - 1}(id = ${topic.id})}">Previous</a>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/topic/{id}/page/' + ${totalPages}(id = ${topic.id})}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+
+            <form method="post" th:action="@{/topic/{id}/page/__${pageNumber}__(id = ${topic.id})}">
+                <div class="col-sm-4">
+                    <input type="number" th:value="pageNumber" name="pageNumber" class="form-control">
+                    <button type="submit" class="btn btn-success">Go</button>
+                </div>
+            </form>
+
+
+        </div>
+    </div></n1>
+
+</div>
             <div class="col-sm-10">
                 <a th:href="@{/topic/{id}/inscription(id = ${topic.id})}" class="btn btn-success pull-right">Add inscription</a>
             </div>

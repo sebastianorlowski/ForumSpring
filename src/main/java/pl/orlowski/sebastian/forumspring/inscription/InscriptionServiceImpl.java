@@ -1,6 +1,10 @@
 package pl.orlowski.sebastian.forumspring.inscription;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
@@ -48,5 +52,10 @@ public class InscriptionServiceImpl implements InscriptionService {
         return inscriptionRepository.findTop5ByOrderByCreatedAtDesc();
     }
 
+    @Override
+    public Page<Inscription> findPaginated(int pageNumber, int pageSize, Long topicId) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").ascending());
+        return this.inscriptionRepository.findByTopicId(topicId, pageable);
+    }
 }
 

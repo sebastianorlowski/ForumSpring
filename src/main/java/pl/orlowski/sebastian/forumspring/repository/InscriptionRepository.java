@@ -1,5 +1,7 @@
 package pl.orlowski.sebastian.forumspring.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
@@ -11,6 +13,9 @@ import java.util.Set;
 public interface InscriptionRepository extends JpaRepository<Inscription, Long> {
 
     Set<Inscription> findAllByTopicId(Long id);
+
     Set<Inscription> findTop5ByOrderByCreatedAtDesc();
+
+    Page<Inscription> findByTopicId(Long id, Pageable pageable);
 
 }

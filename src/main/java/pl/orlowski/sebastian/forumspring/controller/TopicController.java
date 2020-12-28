@@ -6,10 +6,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
-import pl.orlowski.sebastian.forumspring.repository.UserRepository;
+import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
+import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
 import java.util.List;
@@ -19,29 +19,26 @@ import java.util.List;
 public class TopicController {
 
     private TopicService topicService;
-    private TopicRepository topicRepository;
     private InscriptionService inscriptionService;
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     public TopicController(TopicService topicService,
-                           TopicRepository topicRepository,
                            InscriptionService inscriptionService,
-                           UserRepository userRepository) {
+                           UserService userService) {
         this.topicService = topicService;
-        this.topicRepository = topicRepository;
         this.inscriptionService = inscriptionService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     /* find topic by id */
     @GetMapping("/{id}")
     public String getTopicWindow(@PathVariable Long id, Model model) {
         Topic topic = topicService.findOne(id);
-        if (topicRepository.existsById(id)) {
+        if (topicService.existById(id)) {
             model.addAttribute("topic", topic);
             model.addAttribute("inscriptions", inscriptionService.getInscriptionsByTopicId(id));
-            return "topic";
+            return findPaginatedTopic(1, id, model);
         }
         return "redirect:/";
     }
@@ -52,7 +49,7 @@ public class TopicController {
                                       Authentication auth,
                                       Model model) {
         Topic topic = topicService.findOne(id);
-        if (topic.getUser() != userRepository.findByLogin(auth.getName())) {
+        if (topic.getUser() != userService.findByLogin(auth.getName())) {
             return "redirect:/topic/" + id;
         }
         model.addAttribute("topic", topic);
@@ -61,13 +58,13 @@ public class TopicController {
 
     @PostMapping("/update/{id}")
     public String updateTopic(@PathVariable Long id, String text) {
-        Topic topic = topicRepository.findById(id).get();
+        Topic topic = topicService.findOne(id);
         topic.setId(id);
         topic.setTitle(topic.getTitle());
         topic.setUser(topic.getUser());
         topic.setText(text);
 
-        topicRepository.save(topic);
+        topicService.save(topic);
 
         return "redirect:/topic/" + topic.getId();
     }
@@ -77,7 +74,7 @@ public class TopicController {
     public String deleteTopic(@PathVariable Long id,
                               Authentication auth) {
         Topic topic = topicService.findOne(id);
-        if (topic.getUser() != (userRepository.findByLogin(auth.getName()))) {
+        if (topic.getUser() != (userService.findByLogin(auth.getName()))) {
             return "redirect:/topic/" + id;
         }
         topicService.delete(id);
@@ -86,11 +83,12 @@ public class TopicController {
     }
 
     /* Get Topic list */
-    @GetMapping("/page")
+    @GetMapping()
     public String getAllTopics(Model model) {
         return findPaginated(1, model);
     }
 
+    /* Pagination topic list */
     @GetMapping("/page/{pageNumber}")
     public String findPaginated(@PathVariable("pageNumber") int pageNumber, Model model) {
         int pageSize = 10;
@@ -110,5 +108,30 @@ public class TopicController {
     @PostMapping("/page/{pageNumber}")
     public String goToPage(@RequestParam("pageNumber") int pageNumber) {
         return "redirect:/topic/page/" + pageNumber;
+    }
+
+    /* Pagination inscription list */
+    @GetMapping("/{topicId}/page/{pageNumber}")
+    public String findPaginatedTopic(@PathVariable("pageNumber") int pageNumber, @PathVariable("topicId") Long topicId, Model model) {
+        int pageSize = 10;
+
+        Page<Inscription> page = inscriptionService.findPaginated(pageNumber, pageSize, topicId);
+        List<Inscription> listInscription = page.getContent();
+        Topic topic = topicService.findOne(topicId);
+
+        model.addAttribute("pageNo", page.getNumber());
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalElements", page.getTotalElements());
+        model.addAttribute("inscriptionList",  listInscription);
+        model.addAttribute("topic", topic);
+
+        return "topic";
+    }
+
+    @PostMapping("/{topicId}/page/{pageNumber}")
+    public String goToPageTopic(@RequestParam("pageNumber") int pageNumber,
+                                @PathVariable("topicId") Long topicId) {
+        return "redirect:/topic/" + topicId + "/page/" + pageNumber;
     }
 }

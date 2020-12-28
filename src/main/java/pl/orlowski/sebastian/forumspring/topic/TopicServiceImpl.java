@@ -58,4 +58,9 @@ public class TopicServiceImpl implements TopicService {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").descending());
         return this.topicRepository.findAll(pageable);
     }
+
+    @Override
+    public boolean existById(Long id) {
+        return topicRepository.existsById(id);
+    }
 }

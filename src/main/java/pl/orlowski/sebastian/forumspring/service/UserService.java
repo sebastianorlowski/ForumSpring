@@ -11,5 +11,8 @@ import pl.orlowski.sebastian.forumspring.user.User;
 @Service
 public interface UserService extends UserDetailsService {
     User save(UserRegistrationDto userRegistrationDto);
+
     String getUserLoginByTopic(Long topicId);
+
+    User findByLogin(String login);
 }
