@@ -25,5 +25,4 @@ public interface TopicService {
     Page<Topic> findPaginated(int pageNumber, int pageSize);
     
     List<Topic> findTopicsByRegex(String regex);
-
 }

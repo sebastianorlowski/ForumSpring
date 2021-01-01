@@ -1,5 +1,6 @@
 package pl.orlowski.sebastian.forumspring.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,4 +16,8 @@ public interface UserService extends UserDetailsService {
     String getUserLoginByTopic(Long topicId);
 
     User findByLogin(String login);
+
+    Page<User> findPaginated(int pageNumber, int pageSize);
+
+    void delete(Long id);
 }

@@ -76,5 +76,4 @@ public class TopicServiceImpl implements TopicService {
         }
         return topicRegex;
     }
-
 }

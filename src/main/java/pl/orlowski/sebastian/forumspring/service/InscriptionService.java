@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.dto.InscriptionDto;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
+import pl.orlowski.sebastian.forumspring.user.User;
 
 import java.util.List;
 import java.util.Set;
@@ -23,5 +24,7 @@ public interface InscriptionService {
     Set<Inscription> findInscriptionsByDate();
 
     Page<Inscription> findPaginated(int pageNumber, int pageSize, Long topicId);
+
+    List<Inscription> getInscriptionsByUser(User user);
 
 }

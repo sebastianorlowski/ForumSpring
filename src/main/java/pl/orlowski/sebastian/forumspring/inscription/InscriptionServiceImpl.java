@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
+import pl.orlowski.sebastian.forumspring.user.User;
 
 import java.util.List;
 import java.util.Set;
@@ -56,6 +57,11 @@ public class InscriptionServiceImpl implements InscriptionService {
     public Page<Inscription> findPaginated(int pageNumber, int pageSize, Long topicId) {
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, Sort.by("createdAt").ascending());
         return this.inscriptionRepository.findByTopicId(topicId, pageable);
+    }
+
+    @Override
+    public List<Inscription> getInscriptionsByUser(User user) {
+        return inscriptionRepository.findAllByUser(user);
     }
 }
 

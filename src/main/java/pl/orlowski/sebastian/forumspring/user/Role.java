@@ -8,16 +8,19 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private String role;
 
-    public Role(Long id, String role) {
+    @Column(name = "name")
+    private String name;
+
+    public Role(Long id, String name) {
         this.id = id;
-        this.role = role;
+        this.name = name;
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String name) {
+        this.name = name;
     }
 
     public Role() {
@@ -33,10 +36,10 @@ public class Role {
     }
 
     public String getRole() {
-        return role;
+        return name;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(String name) {
+        this.name = name;
     }
 }
