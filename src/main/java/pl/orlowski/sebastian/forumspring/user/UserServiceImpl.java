@@ -62,7 +62,10 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("Unknown user");
         }
-            return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+            org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User
+                    (user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+
+        return userDetails;
     }
 
     /* Transfer roles to authorities */
