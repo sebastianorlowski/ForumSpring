@@ -22,6 +22,7 @@
     <table border="1" style="width:800px" class="table table-bordered table-striped">
         <thead>
         <tr>
+            <th sec:authorize="hasAuthority('ADMIN')">Id</th>
             <th>Topic name</th>
             <th>Created</th>
             <th>Login</th>
@@ -29,6 +30,7 @@
         </thead>
         <tbody>
         <tr th:each="topic : ${topicList}">
+            <td sec:authorize="hasAuthority('ADMIN')" th:width="50px" th:text="${topic.id}"></td>
             <td>
                 <a th:href="@{/topic/{id}(id = ${topic.id})}" th:text="${topic.title}"></a>
             </td>

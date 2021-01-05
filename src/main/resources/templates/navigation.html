@@ -20,6 +20,10 @@
         <ul class="nav navbar-nav">
             <li sec:authorize="isAuthenticated()"><a th:href="@{/search}"><n1>Search</n1></a></li>
         </ul>
+
+        <ul class="nav navbar-nav">
+            <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin}"><n1>Admin</n1></a></li>
+        </ul>
     </div>
 </nav>
 </div>

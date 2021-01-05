@@ -19,27 +19,30 @@
 <div align="center" class = "container">
     <div class = "row">
         <div class = "col-md3 col-md-offset-0">
-
             <table border="1" style="width:60pc" class="table table-bordered table-striped">
                 <thead>
                 <tr style="background-color: lightsteelblue">
+                    <th sec:authorize="hasAuthority('ADMIN')">Id</th>
                     <th>Topic name</th>
                     <th>Created</th>
                     <th>Login</th>
                 </tr>
                 </thead>
                 <tbody>
+                <td sec:authorize="hasAuthority('ADMIN')" th:width="50px" th:text="${topic.id}"></td>
                     <td th:width="300px" th:text="${topic.title}"></td>
                     <td th:width="200px" th:text="${#dates.format(topic.createdAt, 'dd-MM-yyyy | HH:mm')}"></td>
                     <td th:width="200px" th:text="${topic.user.getLogin()}"></td>
                 </tbody>
-                <td colspan="3" th:text="${topic.text}"></td>
+                <td colspan="4" th:text="${topic.text}"></td>
                 <div th:if="${#authentication.name} == ${topic.user.login}">
                     <tr>
                     <td colspan="3" style="font-size: smaller">
+                        <a th:href="@{/topic/delete/{id}(id = ${topic.id})}">Delete</a>
                     <a th:href="@{/topic/edit/{id}(id = ${topic.id})}" >Edit</a>
                     </td>
                     </tr>
+                </div>
             </table>
 
 
@@ -50,19 +53,20 @@
             <table border="1" th:each="inscription : ${inscriptionList}" style="width: 60pc" class="table table-bordered table-striped">
                 <thead>
                 <tr style="background-color: lightsteelblue; font-weight: bold">
+                    <td sec:authorize="hasAuthority('ADMIN')" th:width="50px" th:text="${inscription.id}"></td>
                     <td style="width: 80pc" th:text="'Created by ' + ${inscription.user.login}"></td>
                     <td style="width: 20pc" th:text="${#dates.format(inscription.createdAt, 'HH:mm | dd-MM-yyyy')}"></td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr style="background-color: lemonchiffon">
-                <td colspan="2" th:text="${inscription.text}"></td>
+                <td colspan="3" th:text="${inscription.text}"></td>
 
                 </tr>
                 </tbody>
                 <div th:if="${#authentication.name} == ${inscription.user.login}">
                 <tfoot>
-                <td colspan="2" style="font-size: smaller">
+                <td colspan="3" style="font-size: smaller">
                     <a th:href="@{/inscription/edit/{id}(id = ${inscription.id})}" >Edit</a> |  |
                     <a href="" data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning' + ${inscription.id}">Delete</a>
                     <div class="modal modal-warning fade in" id="myModal" th:id="modal-warning+${inscription.id}">
