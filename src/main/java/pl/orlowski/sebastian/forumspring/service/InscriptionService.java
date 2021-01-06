@@ -25,6 +25,6 @@ public interface InscriptionService {
 
     Page<Inscription> findPaginated(int pageNumber, int pageSize, Long topicId);
 
-    List<Inscription> getInscriptionsByUser(User user);
+    Set<Inscription> getInscriptionsByUser(User user);
 
 }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body>
+
+<div th:insert="navigation :: nav"></div>
+
+<div class="container">
+    <h4>Get users: </h4>
+    <a th:href="@{/admin/getusers}" type="button" class="btn btn-primary"></i>Show all users</a>
+</div>
+
+<div class="container">
+    <h4>Find user by login: </h4>
+    <form method="post" th:action="@{/user/${userLogin}}">
+        <div class = "col-sm" style="width: 15pc">
+            <input type="text" th:size="50" th:placeholder="Login" name="userLogin" class="form-control">
+            <br>
+            <div clas="col-sm">
+                <button type="submit" class="btn btn-primary">Find user</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <h4>Delete topic by id: </h4>
+    <form method="post">
+        <div class = "col-sm" style="width: 15pc">
+            <input type="text" th:size="50" th:placeholder="Id" name="topicName" class="form-control" >
+            <br>
+            <div clas="col-sm">
+                <button type="submit" class="btn btn-danger">Delete topic</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <h4>Delete inscription by id: </h4>
+    <form method="post">
+        <div class = "col-sm" style="width: 15pc">
+            <input type="text" th:size="50" th:placeholder="Id" name="topicName" class="form-control" >
+            <br>
+            <div clas="col-sm">
+                <button type="submit" class="btn btn-danger">Delete inscription</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <h4>Delete user by login</h4>
+    <form method="post">
+        <div class = "col-sm" style="width: 15pc">
+            <input type="text" th:size="50" th:placeholder="Login" name="topicName" class="form-control" >
+            <br>
+            <div clas="col-sm">
+                <button type="submit" class="btn btn-danger">Delete user</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

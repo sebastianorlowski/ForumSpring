@@ -6,4 +6,6 @@ import pl.orlowski.sebastian.forumspring.user.Role;
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
     Role findByName(String name);
+
+    Role getRoleByName(String name);
 }

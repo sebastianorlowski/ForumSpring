@@ -1,14 +1,13 @@
 package pl.orlowski.sebastian.forumspring.controller;
 
 import org.dom4j.rule.Mode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
+import pl.orlowski.sebastian.forumspring.repository.RoleRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.service.UserService;
@@ -17,17 +16,25 @@ import pl.orlowski.sebastian.forumspring.user.User;
 
 import java.util.List;
 
-@Controller("/admin")
+@Controller
+@RequestMapping("/admin")
 public class AdminController {
 
     private UserService userService;
     private TopicService topicService;
     private InscriptionService inscriptionService;
+    private RoleRepository roleRepository;
 
+    @Autowired
     public AdminController(UserService userService, TopicService topicService, InscriptionService inscriptionService) {
         this.userService = userService;
         this.topicService = topicService;
         this.inscriptionService = inscriptionService;
+    }
+
+    @GetMapping()
+    public String adminController() {
+        return "admin";
     }
 
     /* find users and give option to delete and show inscription with id*/
@@ -50,6 +57,9 @@ public class AdminController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalElements", page.getTotalElements());
         model.addAttribute("userList",  allUsers);
+        model.addAttribute("inscription", inscriptionService);
+        model.addAttribute("role", userService);
+        model.addAttribute("topic", topicService);
 
         return "allUsers";
     }
@@ -59,24 +69,17 @@ public class AdminController {
         return "redirect:/admin/getusers/page/" + pageNumber;
     }
 
-    @GetMapping("/user/{userLogin}")
-    public String getInscriptionsByUser(String login, Model model) {
-        User user = userService.findByLogin(login);
-        List<Inscription> allInscriptions = inscriptionService.getInscriptionsByUser(user);
 
-        model.addAttribute("inscriptionList", allInscriptions);
 
-        return "allInscriptions";
-    }
 
-    @GetMapping()
-    public String deleteUserByLogin(String login) {
-        User user = userService.findByLogin(login);
-
-        userService.delete(user.getId());
-
-        return "redirect:/admin/getusers";
-    }
+//    @GetMapping()
+//    public String deleteUserByLogin(String login) {
+//        User user = userService.findByLogin(login);
+//
+//        userService.delete(user.getId());
+//
+//        return "redirect:/admin/getusers";
+//    }
 
 }
 

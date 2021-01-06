@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
+import pl.orlowski.sebastian.forumspring.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,5 +76,10 @@ public class TopicServiceImpl implements TopicService {
             }
         }
         return topicRegex;
+    }
+
+    @Override
+    public List<Topic> findTopicsByUser(User user) {
+        return topicRepository.getTopicsByUser(user);
     }
 }

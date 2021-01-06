@@ -3,6 +3,8 @@ package pl.orlowski.sebastian.forumspring.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
+import pl.orlowski.sebastian.forumspring.user.User;
+
 import java.util.List;
 import java.util.Set;
 
@@ -25,4 +27,6 @@ public interface TopicService {
     Page<Topic> findPaginated(int pageNumber, int pageSize);
     
     List<Topic> findTopicsByRegex(String regex);
+
+    List<Topic> findTopicsByUser(User user);
 }

@@ -11,3 +11,11 @@ centered {
     /* bring your own prefixes */
     transform: translate(-60%, -50%);
 }
+
+adminTable {
+    background-color: tomato;
+    color: white;
+    border: 2px solid black;
+    margin: 20px;
+    padding: 20px;
+}

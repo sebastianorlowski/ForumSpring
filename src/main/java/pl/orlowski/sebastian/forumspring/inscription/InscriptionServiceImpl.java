@@ -60,7 +60,7 @@ public class InscriptionServiceImpl implements InscriptionService {
     }
 
     @Override
-    public List<Inscription> getInscriptionsByUser(User user) {
+    public Set<Inscription> getInscriptionsByUser(User user) {
         return inscriptionRepository.findAllByUser(user);
     }
 }

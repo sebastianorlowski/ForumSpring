@@ -20,6 +20,6 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Long> 
 
     Page<Inscription> findByTopicId(Long id, Pageable pageable);
 
-    List<Inscription> findAllByUser(User user);
+    Set<Inscription> findAllByUser(User user);
 
 }

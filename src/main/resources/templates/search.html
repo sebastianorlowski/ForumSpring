@@ -15,7 +15,7 @@
 
 <centered>
     <div class = "row">
-    <form method="post" th:action="@{/search/__${topicName}__}">
+    <form method="post" th:action="@{/search/${topicName}}">
         <div class = "col-sm">
             <input type="text" th:placeholder="Search..." name="topicName" class="form-control" >
                 <br>

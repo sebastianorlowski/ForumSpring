@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body>
+
+<div th:insert="navigation :: nav"></div>
+
+
+<div align="center" class="container my-2">
+    <h3>Users</h3>
+    <table border="1" style="width:800px" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>User login</th>
+            <th>Inscriptions</th>
+            <th>Topics</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:width="50" th:text="${user.getId()}"></td>
+            <td>
+                <a th:text="${user.getLogin()}"></a>
+            </td>
+            <td th:width="200" th:text="${inscriptions.size()}"></td>
+            <td th:width="200" th:text="${topic.size()}"</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+    <div align="center" class = "container">
+        <table border="1" th:each="inscription : ${inscriptions}" style="width: 60pc" class="table table-bordered table-striped">
+            <tr style="background-color: lightsteelblue; font-weight: bold">
+                <td th:width="50px" th:text="'ID: ' + ${inscription.getId()}"></td>
+                <td><a th:href="@{/topic/{id}(id = ${inscription.getTopic().getId()})}" th:text="'TOPIC ID: ' + ${inscription.getTopic().getId()}" th:width="50px"></a></td>
+                <td style="width: 20pc" th:text="${#dates.format(inscription.getCreatedAt(), 'HH:mm | dd-MM-yyyy')}"></td>
+            </tr>
+            <tbody>
+            <tr style="background-color: lemonchiffon">
+                <td colspan="3" th:text="${inscription.getText()}"></td>
+            </tr>
+            </tbody>
+        </table>
+</div>
+
+</body>
+</html>

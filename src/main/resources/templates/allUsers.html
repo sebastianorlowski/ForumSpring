@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <link th:href="@{/main.css}" rel="stylesheet" />
+</head>
+<body>
+
+<div th:insert="navigation :: nav"></div>
+
+
+<div align="center" class="container my-2">
+    <h3>Users</h3>
+    <table border="1" style="width:800px" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>User login</th>
+            <th>Role</th>
+            <th>Inscriptions</th>
+            <th>Topics</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${userList}">
+            <td th:width="50" th:text="${user.getId()}"></td>
+            <td>
+                <a th:href="@{/user/{id}(id = ${user.getLogin()})}" th:text="${user.getLogin()}"></a>
+            </td>
+            <td th:width="200" th:text="${user.getRoles()}"></td>
+            <td th:width="200" th:text="${inscription.getInscriptionsByUser(user).size()}"></td>
+            <td th:width="200" th:text="${topic.findTopicsByUser(user).size()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <n1><div th:if = "${totalPages > 1}">
+        <div class = "row col-sm-10">
+            <div class = "col-sm-2">
+                Total topics: [[${totalElements}]]
+            </div>
+            <div class = "col-sm-2">
+                [[${currentPage}]] || [[${totalPages}]]
+            </div>
+
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/topic/page/' + ${currentPage + 1}}">Next</a>
+                <a th:if="${currentPage == totalPages}" th:href="@{'/topic/page/' + 1}">First</a>
+            </div>
+
+            <div class = "col-sm-1">
+                <a th:if="${currentPage > 1}" th:href="@{'/topic/page/' + ${currentPage - 1}}">Previous</a>
+            </div>
+
+            <div class="col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{'/topic/page/' + ${totalPages}}">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+
+
+
+            <form method="post" th:action="@{/getusers/page/__${pageNumber}__}">
+                <div class="col-sm-4">
+                    <input type="number" th:value="pageNumber" name="pageNumber" class="form-control">
+                    <button type="submit" class="btn btn-success">Go</button>
+                </div>
+            </form>
+        </div>
+    </div></n1>
+
+</div>
+
+</body>
+</html>
