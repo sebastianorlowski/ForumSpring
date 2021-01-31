@@ -17,4 +17,5 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
     Set<Topic> findTop5ByOrderByCreatedAtDesc();
 
     List<Topic> getTopicsByUser(User user);
+
 }

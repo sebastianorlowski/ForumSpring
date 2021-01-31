@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
+import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
 import pl.orlowski.sebastian.forumspring.repository.TopicRepository;
+import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.user.User;
 

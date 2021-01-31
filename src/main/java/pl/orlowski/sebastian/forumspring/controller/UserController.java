@@ -42,7 +42,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("{userLogin}")
+    @PostMapping("/{userLogin}")
     public String findUserByLogin(@RequestParam String userLogin) {
         return "redirect:/user/" + userLogin;
     }

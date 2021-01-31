@@ -70,8 +70,6 @@ public class AdminController {
     }
 
 
-
-
 //    @GetMapping()
 //    public String deleteUserByLogin(String login) {
 //        User user = userService.findByLogin(login);

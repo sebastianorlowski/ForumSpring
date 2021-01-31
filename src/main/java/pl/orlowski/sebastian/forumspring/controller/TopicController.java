@@ -3,6 +3,8 @@ package pl.orlowski.sebastian.forumspring.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -69,14 +72,31 @@ public class TopicController {
         return "redirect:/topic/" + topic.getId();
     }
 
+    @PostMapping("/delete/{topicId}")
+    public String deleteTopicById(@RequestParam Long topicId) {
+        if (topicService.existById(topicId)) {
+
+            inscriptionService.deleteInscriptionsByTopic(topicService.findOne(topicId));
+            topicService.delete(topicId);
+            return "redirect:/admin?success";
+        }
+        return "admin";
+    }
+
 //  delete topic
     @GetMapping("/delete/{id}")
     public String deleteTopic(@PathVariable Long id,
                               Authentication auth) {
         Topic topic = topicService.findOne(id);
-        if (topic.getUser() != (userService.findByLogin(auth.getName()))) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+        if ((topic.getUser() != (userService.findByLogin(auth.getName())) || !hasUserRole)) {
             return "redirect:/topic/" + id;
         }
+
+        inscriptionService.deleteInscriptionsByTopic(topicService.findOne(id));
         topicService.delete(id);
 
         return "redirect:/";

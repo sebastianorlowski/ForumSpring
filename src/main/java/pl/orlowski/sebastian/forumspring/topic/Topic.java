@@ -10,7 +10,7 @@ import java.util.Date;
 public class Topic {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String title;
@@ -18,7 +18,7 @@ public class Topic {
     private String text;
 
 //    Many topics to one user
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn
     private User user;
 

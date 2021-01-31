@@ -8,8 +8,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
+import pl.orlowski.sebastian.forumspring.topic.Topic;
 import pl.orlowski.sebastian.forumspring.user.User;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
@@ -62,6 +64,12 @@ public class InscriptionServiceImpl implements InscriptionService {
     @Override
     public Set<Inscription> getInscriptionsByUser(User user) {
         return inscriptionRepository.findAllByUser(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteInscriptionsByTopic(Topic topic) {
+        inscriptionRepository.deleteInscriptionsByTopic(topic);
     }
 }
 

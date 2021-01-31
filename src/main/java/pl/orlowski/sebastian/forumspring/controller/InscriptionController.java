@@ -33,7 +33,7 @@ public class InscriptionController {
         this.userService = userService;
     }
 
-    @GetMapping("topic/{idTopic}/inscription")
+    @GetMapping("/topic/{idTopic}/inscription")
     public String getNewInscriptionWindow(@PathVariable Long idTopic, Model model) {
         Topic topic = topicService.findOne(idTopic);
         model.addAttribute("inscription", topic);
@@ -41,7 +41,7 @@ public class InscriptionController {
     }
 
     //    Add inscription
-    @PostMapping("topic/{idTopic}")
+    @PostMapping("/topic/{idTopic}")
     public String addNewInscription(@PathVariable Long idTopic,
                                     InscriptionDto inscriptionDto,
                                     Authentication auth) {

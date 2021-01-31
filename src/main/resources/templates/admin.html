@@ -33,9 +33,13 @@
 
 <div class="container">
     <h4>Delete topic by id: </h4>
-    <form method="post">
+    <form method="post" th:action="@{/topic/delete/${topicId}}">
         <div class = "col-sm" style="width: 15pc">
-            <input type="text" th:size="50" th:placeholder="Id" name="topicName" class="form-control" >
+            <div th:if="${param.success}">
+                <div class="alert alert-danger">You removed topic!</div>
+            </div>
+
+            <input type="text" th:size="50" th:placeholder="Id" name="topicId" class="form-control" >
             <br>
             <div clas="col-sm">
                 <button type="submit" class="btn btn-danger">Delete topic</button>
@@ -46,7 +50,7 @@
 
 <div class="container">
     <h4>Delete inscription by id: </h4>
-    <form method="post">
+    <form method="post" th:action="@{/inscription/delete/{id}}">
         <div class = "col-sm" style="width: 15pc">
             <input type="text" th:size="50" th:placeholder="Id" name="topicName" class="form-control" >
             <br>

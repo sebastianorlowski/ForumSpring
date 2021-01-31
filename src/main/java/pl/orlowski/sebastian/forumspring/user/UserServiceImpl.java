@@ -47,8 +47,11 @@ public class UserServiceImpl implements UserService {
     /* Save user to db */
     @Override
     public User save(UserRegistrationDto userRegistrationDto) {
-        User user = new User(userRegistrationDto.getLogin(), passwordEncoder.encode(userRegistrationDto.getPassword()),
-                userRegistrationDto.getEmail(), Arrays.asList(roleRepository.findByName("USER")));
+        User user = new User();
+        user.setLogin(userRegistrationDto.getLogin());
+        user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
+        user.setEmail(userRegistrationDto.getEmail());
+        user.setRoles(Arrays.asList(roleRepository.findByName("USER")));
 
         return userRepository.save(user);
     }
