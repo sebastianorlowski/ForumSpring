@@ -80,26 +80,7 @@ public class TopicController {
             topicService.delete(topicId);
             return "redirect:/admin?success";
         }
-        return "admin";
-    }
-
-//  delete topic
-    @GetMapping("/delete/{id}")
-    public String deleteTopic(@PathVariable Long id,
-                              Authentication auth) {
-        Topic topic = topicService.findOne(id);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        boolean hasUserRole = authentication.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
-        if ((topic.getUser() != (userService.findByLogin(auth.getName())) || !hasUserRole)) {
-            return "redirect:/topic/" + id;
-        }
-
-        inscriptionService.deleteInscriptionsByTopic(topicService.findOne(id));
-        topicService.delete(id);
-
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     /* Get Topic list */

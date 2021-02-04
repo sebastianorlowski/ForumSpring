@@ -29,4 +29,6 @@ public interface TopicService {
     List<Topic> findTopicsByRegex(String regex);
 
     List<Topic> findTopicsByUser(User user);
+
+
 }

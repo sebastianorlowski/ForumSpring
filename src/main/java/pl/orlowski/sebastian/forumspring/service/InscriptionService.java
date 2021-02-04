@@ -29,4 +29,6 @@ public interface InscriptionService {
     Set<Inscription> getInscriptionsByUser(User user);
 
     void deleteInscriptionsByTopic(Topic topic);
+
+    boolean existById(Long id);
 }

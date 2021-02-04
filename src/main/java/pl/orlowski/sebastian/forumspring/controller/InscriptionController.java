@@ -83,17 +83,19 @@ public class InscriptionController {
     }
 
 //    Delete inscription
-    @GetMapping("inscription/delete/{id}")
-    public String deleteInscription(@PathVariable Long id,
+    @PostMapping("/inscription/delete/{id}")
+    public String deleteInscription(@RequestParam Long id,
                                     Authentication auth) {
-        Inscription inscription = inscriptionService.findOne(id);
-        Topic topic = inscription.getTopic();
-        if (inscription.getUser() != userService.findByLogin(auth.getName())) {
-            return "redirect:/topic/" + topic.getId();
-        }
-        inscriptionService.delete(id);
 
-        return "redirect:/topic/" + topic.getId();
+        boolean hasUserRole = auth.getAuthorities().stream()
+                    .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+        if (inscriptionService.existById(id)) {
+            Inscription inscription = inscriptionService.findOne(id);
+            Topic topic = topicService.findOne(inscription.getId());
+            inscriptionService.delete(id);
+            return "redirect:/admin";
+        }
+        return "redirect:/admin";
     }
 
 }

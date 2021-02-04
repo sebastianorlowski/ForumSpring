@@ -84,4 +84,5 @@ public class TopicServiceImpl implements TopicService {
     public List<Topic> findTopicsByUser(User user) {
         return topicRepository.getTopicsByUser(user);
     }
+
 }

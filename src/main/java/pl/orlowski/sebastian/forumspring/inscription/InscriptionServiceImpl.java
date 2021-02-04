@@ -71,5 +71,12 @@ public class InscriptionServiceImpl implements InscriptionService {
     public void deleteInscriptionsByTopic(Topic topic) {
         inscriptionRepository.deleteInscriptionsByTopic(topic);
     }
+
+    @Override
+    public boolean existById(Long id) {
+        return inscriptionRepository.existsById(id);
+    }
+
+
 }
 
