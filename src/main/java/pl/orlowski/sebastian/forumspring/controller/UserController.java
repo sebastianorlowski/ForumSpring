@@ -46,4 +46,15 @@ public class UserController {
     public String findUserByLogin(@RequestParam String userLogin) {
         return "redirect:/user/" + userLogin;
     }
+
+    @PostMapping("/delete/{userLogin}")
+    public String deleteUserByLogin(@RequestParam String userLogin) {
+
+        if (userService.userIsExist(userService.findByLogin(userLogin))) {
+            userService.deleteByLogin(userLogin);
+
+            return "redirect:/admin?deleteusersuccess";
+        }
+        return "redirect:/admin";
+    }
 }

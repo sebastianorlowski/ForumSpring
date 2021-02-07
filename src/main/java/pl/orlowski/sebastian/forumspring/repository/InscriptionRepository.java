@@ -25,4 +25,5 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Long> 
     Set<Inscription> findAllByUser(User user);
 
     void deleteInscriptionsByTopic(Topic topic);
+
 }

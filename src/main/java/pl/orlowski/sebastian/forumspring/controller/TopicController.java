@@ -78,7 +78,7 @@ public class TopicController {
 
             inscriptionService.deleteInscriptionsByTopic(topicService.findOne(topicId));
             topicService.delete(topicId);
-            return "redirect:/admin?success";
+            return "redirect:/admin?deletetopicsuccess";
         }
         return "redirect:/admin";
     }

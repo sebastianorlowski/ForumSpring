@@ -94,8 +94,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
-        userRepository.deleteById(id);
+    public void deleteByLogin(String login) {
+        User user = userRepository.getUserByUsername(login);
+        userRepository.delete(user);
     }
 
     @Override
@@ -104,5 +105,10 @@ public class UserServiceImpl implements UserService {
 
 
         return "lelel";
+    }
+
+    @Override
+    public boolean userIsExist(User user) {
+        return true;
     }
 }

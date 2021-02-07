@@ -24,7 +24,9 @@ public interface UserService extends UserDetailsService {
 
     Page<User> findPaginated(int pageNumber, int pageSize);
 
-    void delete(Long id);
+    void deleteByLogin(String login);
 
     String getUserDetails(User user);
+
+    boolean userIsExist(User user);
 }

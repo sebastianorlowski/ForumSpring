@@ -93,7 +93,7 @@ public class InscriptionController {
             Inscription inscription = inscriptionService.findOne(id);
             Topic topic = topicService.findOne(inscription.getId());
             inscriptionService.delete(id);
-            return "redirect:/admin";
+            return "redirect:/admin?deleteinscriptionsuccess";
         }
         return "redirect:/admin";
     }
