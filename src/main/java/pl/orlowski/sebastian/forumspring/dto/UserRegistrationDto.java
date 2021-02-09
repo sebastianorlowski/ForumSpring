@@ -20,12 +20,17 @@ public class UserRegistrationDto {
     @Email(message = "Wrong email format!")
     private String email;
 
-    public UserRegistrationDto(String login, String password, String email) {
+    private Boolean isEnabled;
+
+    public UserRegistrationDto(String login, String password, String email, Boolean isEnabled) {
         super();
         this.login = login;
         this.password = password;
         this.email = email;
+        this.isEnabled = isEnabled;
     }
+
+
 
     public UserRegistrationDto() {
 
@@ -53,5 +58,13 @@ public class UserRegistrationDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
     }
 }

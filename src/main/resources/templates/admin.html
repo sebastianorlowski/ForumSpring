@@ -66,7 +66,7 @@
 </div>
 
 <div class="container">
-    <h4>Delete user by login</h4>
+    <h4>Disable user by login</h4>
     <form method="post" th:action="@{/user/delete/${userLogin}}">
         <div class = "col-sm" style="width: 15pc">
             <div th:if="${param.deleteusersuccess}">
@@ -76,7 +76,24 @@
             <input type="text" th:size="50" th:placeholder="Login" name="userLogin" class="form-control" >
             <br>
             <div clas="col-sm">
-                <button type="submit" class="btn btn-danger">Delete user</button>
+                <button type="submit" class="btn btn-danger">Disable user</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <h4>Enable user by login</h4>
+    <form method="post" th:action="@{/user/enable/${userLogin}}">
+        <div class = "col-sm" style="width: 15pc">
+            <div th:if="${param.enableusersuccess}">
+                <div class="alert alert-info">You enabled user!</div>
+            </div>
+
+            <input type="text" th:size="50" th:placeholder="Login" name="userLogin" class="form-control" >
+            <br>
+            <div clas="col-sm">
+                <button type="submit" class="btn btn-info">Enable user</button>
             </div>
         </div>
     </form>

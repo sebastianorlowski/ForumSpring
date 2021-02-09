@@ -1,5 +1,7 @@
 package pl.orlowski.sebastian.forumspring.user;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -24,6 +26,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "enabled", columnDefinition = "TINYINT")
+    private Boolean isEnabled;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinTable(
             name = "users_roles",
@@ -33,10 +38,11 @@ public class User {
                     name = "role_id"))
     private Collection<Role> roles;
 
-    public User(String login, String password, String email, Collection<Role> roles) {
+    public User(String login, String password, String email, Boolean isEnabled, Collection<Role> roles) {
         this.login = login;
         this.password = password;
         this.email = email;
+        this.isEnabled = isEnabled;
         this.roles = roles;
     }
 
@@ -74,6 +80,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
     }
 
     public Collection<Role> getRoles() {

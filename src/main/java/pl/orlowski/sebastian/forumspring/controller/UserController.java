@@ -51,9 +51,20 @@ public class UserController {
     public String deleteUserByLogin(@RequestParam String userLogin) {
 
         if (userService.userIsExist(userService.findByLogin(userLogin))) {
-            userService.deleteByLogin(userLogin);
+            userService.enabledUser(userLogin, false);
 
             return "redirect:/admin?deleteusersuccess";
+        }
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/enable/{userLogin}")
+    public String enableUserByLogin(@RequestParam String userLogin) {
+
+        if (userService.userIsExist(userService.findByLogin(userLogin))) {
+            userService.enabledUser(userLogin, true);
+
+            return "redirect:/admin?enableusersuccess";
         }
         return "redirect:/admin";
     }

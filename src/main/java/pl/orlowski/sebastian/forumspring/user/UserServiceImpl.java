@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
         user.setLogin(userRegistrationDto.getLogin());
         user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
         user.setEmail(userRegistrationDto.getEmail());
+        user.setEnabled(true);
         user.setRoles(Arrays.asList(roleRepository.findByName("USER")));
 
         return userRepository.save(user);
@@ -69,10 +70,15 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("Unknown user");
         }
+
+        if (user.isEnabled()) {
             org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User
                     (user.getLogin(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
 
-        return userDetails;
+            return userDetails;
+        } else {
+            throw new UsernameNotFoundException("Account is disabled!");
+        }
     }
 
     /* Transfer roles to authorities */
@@ -94,15 +100,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByLogin(String login) {
-        User user = userRepository.getUserByUsername(login);
-        userRepository.delete(user);
+    public void enabledUser(String login, boolean isEnabled) {
+        User user = userRepository.findByLogin(login);
+        user.setEnabled(isEnabled);
+        userRepository.save(user);
     }
 
     @Override
     public String getUserDetails(User user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
 
         return "lelel";
     }

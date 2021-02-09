@@ -24,7 +24,7 @@ public interface UserService extends UserDetailsService {
 
     Page<User> findPaginated(int pageNumber, int pageSize);
 
-    void deleteByLogin(String login);
+    void enabledUser(String login, boolean isEnabled);
 
     String getUserDetails(User user);
 
