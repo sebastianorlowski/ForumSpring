@@ -43,11 +43,10 @@ public class InscriptionController {
     }
 
     @PostMapping("/topic/{topicId}")
-    public String addNewInscription(@Valid @ModelAttribute("inscription")NewInscription newInscription,
+    public String addNewInscription(@Valid @ModelAttribute("inscription") NewInscription newInscription,
                                     BindingResult bindingResult,
                                     @PathVariable Long topicId,
-                                    Authentication auth,
-                                    Model model) {
+                                    Authentication auth) {
 
         if (bindingResult.hasErrors()) {
             return "inscription";
@@ -68,7 +67,9 @@ public class InscriptionController {
     @GetMapping("/inscription/edit/{id}")
     public String editInscription(@PathVariable Long id, Model model,
                                   Authentication auth) {
+
         Inscription inscription = inscriptionService.findOne(id);
+
         if (inscription.getUser() != userService.findByLogin(auth.getName())) {
             return "redirect:/topic/" + inscription.getTopic().getId();
         }
@@ -78,7 +79,14 @@ public class InscriptionController {
 }
 
     @PostMapping("/inscription/update/{id}")
-    public String updateInscription(@PathVariable Long id, String text) {
+    public String updateInscription(@Valid @ModelAttribute("inscription") NewInscription newInscription,
+                                    BindingResult bindingResult,
+                                    @PathVariable Long id, String text) {
+
+        if (bindingResult.hasErrors()) {
+            return "inscriptionEdit";
+        }
+
         Inscription inscription = inscriptionService.findOne(id);
         inscription.setId(id);
         inscription.setUser(inscription.getUser());
@@ -91,19 +99,25 @@ public class InscriptionController {
     }
 
 //    Delete inscription
-    @PostMapping("/inscription/delete/{id}")
-    public String deleteInscription(@RequestParam Long id,
+    @GetMapping("/inscription/delete/{id}")
+    public String deleteInscription(@PathVariable Long id,
                                     Authentication auth) {
+        Inscription inscription = inscriptionService.findOne(id);
+        Topic topic = inscription.getTopic();
 
         boolean hasUserRole = auth.getAuthorities().stream()
                     .anyMatch(r -> r.getAuthority().equals("ADMIN"));
-        if (inscriptionService.existById(id)) {
-            Inscription inscription = inscriptionService.findOne(id);
-            Topic topic = topicService.findOne(inscription.getId());
+        if (inscriptionService.existById(id) && (inscription.getUser().getLogin().equals(auth.getName()) || hasUserRole)) {
+
             inscriptionService.delete(id);
-            return "redirect:/admin?deleteinscriptionsuccess";
+            if (hasUserRole) {
+                return "redirect:/admin?deleteinscriptionsuccess";
+            }
+
+            return "redirect:/topic/" + topic.getId();
         }
-        return "redirect:/admin";
+
+        return "redirect:/";
     }
 
 }
