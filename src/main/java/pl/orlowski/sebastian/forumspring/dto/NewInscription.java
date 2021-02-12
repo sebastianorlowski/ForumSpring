@@ -3,21 +3,26 @@ package pl.orlowski.sebastian.forumspring.dto;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 import pl.orlowski.sebastian.forumspring.user.User;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
-public class InscriptionDto {
+public class NewInscription {
 
     private Long id;
+
+    @Size(min = 10, max = 10000, message = "Text must have 10 - 10000 letters!")
     private String text;
     private User user;
     private Topic topic;
 
-    public InscriptionDto(Long id, String text, User user, Topic topic) {
+    public NewInscription(Long id, String text, User user, Topic topic) {
         this.id = id;
         this.text = text;
         this.user = user;
         this.topic = topic;
+    }
+
+    public NewInscription() {
     }
 
     public Long getId() {

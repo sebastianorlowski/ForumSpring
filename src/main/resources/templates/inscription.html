@@ -22,24 +22,17 @@
                 Add new inscription
             </h2>
 
-           <form method="post" th:action="@{/topic/{id}(id = ${idTopic})}" th:object="${inscription}">
+           <form method="post" th:action="@{/topic/{id}(id = ${topicId})}" th:object="${inscription}">
 
-               <div class="row">
-                    <div class="input-field col s12">
-                        <br><br>
-                        <div>
-                            <label for="text">Text</label>
-                        </div>
-                        <textarea id="text" name="text" class="materialize-textarea" rows="10" cols="80"></textarea>
-                        <p th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="red-text">Incorrect inscription!</p>
-                    </div>
-                </div>
+               <div class="form-group">
+                   <p th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="alert alert-danger"></p>
+                   <label class="control-label" for="text">Text </label>
+                   <input th:field="*{text}" id="text" name="text" class="form-control" >
+               </div>
 
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input class="btn waves-effect waves-light" type="submit" name="action" value="Submit" />
-                    </div>
-                </div>
+               <div class="form-group">
+                   <button type="submit" class="btn btn-success">Add</button>
+               </div>
 
             </form>
         </div>

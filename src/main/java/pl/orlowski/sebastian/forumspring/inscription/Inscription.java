@@ -4,6 +4,7 @@ import pl.orlowski.sebastian.forumspring.topic.Topic;
 import pl.orlowski.sebastian.forumspring.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -13,6 +14,7 @@ public class Inscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String text;
 
 //    Many inscriptions to one user

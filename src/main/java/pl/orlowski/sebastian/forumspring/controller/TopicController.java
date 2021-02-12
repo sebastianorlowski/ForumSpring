@@ -14,7 +14,6 @@ import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
-import java.util.Collection;
 import java.util.List;
 
 @Controller

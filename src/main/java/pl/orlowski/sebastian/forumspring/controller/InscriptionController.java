@@ -1,21 +1,19 @@
 package pl.orlowski.sebastian.forumspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.orlowski.sebastian.forumspring.dto.InscriptionDto;
-import pl.orlowski.sebastian.forumspring.dto.TopicDto;
+import pl.orlowski.sebastian.forumspring.dto.NewInscription;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
-import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @Controller
 public class InscriptionController {
@@ -33,30 +31,40 @@ public class InscriptionController {
         this.userService = userService;
     }
 
-    @GetMapping("/topic/{idTopic}/inscription")
-    public String getNewInscriptionWindow(@PathVariable Long idTopic, Model model) {
-        Topic topic = topicService.findOne(idTopic);
-        model.addAttribute("inscription", topic);
-        return "inscription";
+    @GetMapping("/topic/{topicId}/inscription")
+    public String createInscription(@PathVariable Long topicId, Model model) {
+
+        if (topicService.existById(topicId)) {
+            model.addAttribute("inscription", new NewInscription());
+            return "inscription";
+        } else {
+            return "index";
+        }
     }
 
-    //    Add inscription
-    @PostMapping("/topic/{idTopic}")
-    public String addNewInscription(@PathVariable Long idTopic,
-                                    InscriptionDto inscriptionDto,
-                                    Authentication auth) {
-        Topic topic = topicService.findOne(idTopic);
+    @PostMapping("/topic/{topicId}")
+    public String addNewInscription(@Valid @ModelAttribute("inscription")NewInscription newInscription,
+                                    BindingResult bindingResult,
+                                    @PathVariable Long topicId,
+                                    Authentication auth,
+                                    Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "inscription";
+        }
+
+        Topic topic = topicService.findOne(topicId);
+
         Inscription inscription = new Inscription();
-        inscription.setText(inscriptionDto.getText());
+        inscription.setText(newInscription.getText());
         inscription.setTopic(topic);
         inscription.setUser(userService.findByLogin(auth.getName()));
 
         inscriptionService.save(inscription);
 
-        return "redirect:/topic/" + idTopic;
+        return "redirect:/topic/" + topicId;
     }
 
-//    Inscription window
     @GetMapping("/inscription/edit/{id}")
     public String editInscription(@PathVariable Long id, Model model,
                                   Authentication auth) {
