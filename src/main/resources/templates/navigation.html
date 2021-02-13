@@ -6,7 +6,7 @@
 <div th:fragment="nav">
 
 <nav class="navbar navbar-light" style="background-color: #969bd9;">
-    <span class="navbar-brand"><a th:href="@{/}">Home Page</a></span>
+    <span class="navbar-brand"><a th:href="@{/}">Home</a></span>
 
     <div id="navbar" class="collapse navbar-collapse">
 
@@ -19,6 +19,10 @@
 
         <ul class="nav navbar-nav">
             <li sec:authorize="isAuthenticated()"><a th:href="@{/search}"><n1>Search</n1></a></li>
+        </ul>
+
+        <ul class="nav navbar-nav">
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/user}"><n1>Find User</n1></a></li>
         </ul>
 
         <ul class="nav navbar-nav">

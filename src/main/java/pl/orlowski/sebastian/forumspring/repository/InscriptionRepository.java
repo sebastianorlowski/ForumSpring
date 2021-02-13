@@ -18,7 +18,7 @@ public interface InscriptionRepository extends JpaRepository<Inscription, Long> 
 
     Set<Inscription> findAllByTopicId(Long id);
 
-    Set<Inscription> findTop5ByOrderByCreatedAtDesc();
+    Set<Inscription> findTop1ByOrderByCreatedAtDesc();
 
     Page<Inscription> findByTopicId(Long id, Pageable pageable);
 

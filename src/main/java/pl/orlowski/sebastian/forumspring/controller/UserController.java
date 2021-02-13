@@ -1,16 +1,14 @@
 package pl.orlowski.sebastian.forumspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.user.User;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -27,6 +25,11 @@ public class UserController {
         this.topicService = topicService;
     }
 
+    @GetMapping
+    public String search() {
+        return "searchUser";
+    }
+
     @GetMapping("/{userLogin}")
     public String getInscriptionsByUser(@PathVariable("userLogin") String userLogin, Model model) {
         User user = userService.findByLogin(userLogin);
@@ -38,7 +41,8 @@ public class UserController {
 
             return "userInfo";
         } else {
-            return "admin";
+
+            return "searchUser";
         }
     }
 
@@ -48,9 +52,12 @@ public class UserController {
     }
 
     @PostMapping("/delete/{userLogin}")
-    public String deleteUserByLogin(@RequestParam String userLogin) {
+    public String deleteUserByLogin(@RequestParam String userLogin, Authentication auth) {
 
-        if (userService.userIsExist(userService.findByLogin(userLogin))) {
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+
+        if (userService.userIsExist(userService.findByLogin(userLogin)) || hasUserRole) {
             userService.enabledUser(userLogin, false);
 
             return "redirect:/admin?deleteusersuccess";
@@ -59,9 +66,12 @@ public class UserController {
     }
 
     @PostMapping("/enable/{userLogin}")
-    public String enableUserByLogin(@RequestParam String userLogin) {
+    public String enableUserByLogin(@RequestParam String userLogin, Authentication auth) {
 
-        if (userService.userIsExist(userService.findByLogin(userLogin))) {
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+
+        if (userService.userIsExist(userService.findByLogin(userLogin)) || hasUserRole) {
             userService.enabledUser(userLogin, true);
 
             return "redirect:/admin?enableusersuccess";

@@ -5,8 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,9 +18,7 @@ public class SearchController {
     }
 
     @GetMapping
-    public String search(Model model) {
-        int size = topicService.findAll().size();
-        model.addAttribute("topicsize", size);
+    public String search() {
         return "search";
     }
 
@@ -33,9 +29,8 @@ public class SearchController {
         if (topicsByTopicTitle != null) {
             model.addAttribute("searchResult", topicsByTopicTitle);
             return "searchList";
-        } else {
-            return "search";
         }
+            return "search";
     }
 
     @PostMapping("/{topicName}")

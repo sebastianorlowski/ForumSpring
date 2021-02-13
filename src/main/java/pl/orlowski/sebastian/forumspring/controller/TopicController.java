@@ -3,17 +3,18 @@ package pl.orlowski.sebastian.forumspring.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.orlowski.sebastian.forumspring.dto.TopicDto;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -33,10 +34,11 @@ public class TopicController {
         this.userService = userService;
     }
 
-    /* find topic by id */
     @GetMapping("/{id}")
     public String getTopicWindow(@PathVariable Long id, Model model) {
+
         Topic topic = topicService.findOne(id);
+
         if (topicService.existById(id)) {
             model.addAttribute("topic", topic);
             model.addAttribute("inscriptions", inscriptionService.getInscriptionsByTopicId(id));
@@ -45,25 +47,29 @@ public class TopicController {
         return "redirect:/";
     }
 
-//    edit topic text
     @GetMapping("/edit/{id}")
     public String showEditTopicWindow(@PathVariable Long id,
                                       Authentication auth,
                                       Model model) {
         Topic topic = topicService.findOne(id);
-        if (topic.getUser() != userService.findByLogin(auth.getName())) {
-            return "redirect:/topic/" + id;
+
+        if (topicService.existById(id) && topic.getUser() == userService.findByLogin(auth.getName())) {
+            model.addAttribute("topic", topic);
+            return "topicEdit";
         }
-        model.addAttribute("topic", topic);
-        return "topicEdit";
+        return "redirect:/topic/" + id;
     }
 
     @PostMapping("/update/{id}")
-    public String updateTopic(@PathVariable Long id, String text) {
+    public String updateTopic(@Valid @ModelAttribute("topic") TopicDto topicDto,
+                              BindingResult bindingResult, @PathVariable Long id, String text) {
+
+        if (bindingResult.hasErrors()) {
+            return "topicEdit";
+        }
+
         Topic topic = topicService.findOne(id);
         topic.setId(id);
-        topic.setTitle(topic.getTitle());
-        topic.setUser(topic.getUser());
         topic.setText(text);
 
         topicService.save(topic);
@@ -72,8 +78,12 @@ public class TopicController {
     }
 
     @PostMapping("/delete/{topicId}")
-    public String deleteTopicById(@RequestParam Long topicId) {
-        if (topicService.existById(topicId)) {
+    public String deleteTopicById(@RequestParam Long topicId, Authentication auth) {
+
+        boolean hasUserRole = auth.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+
+        if (topicService.existById(topicId) || hasUserRole) {
 
             inscriptionService.deleteInscriptionsByTopic(topicService.findOne(topicId));
             topicService.delete(topicId);

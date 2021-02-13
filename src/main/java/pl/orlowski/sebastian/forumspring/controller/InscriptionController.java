@@ -89,8 +89,6 @@ public class InscriptionController {
 
         Inscription inscription = inscriptionService.findOne(id);
         inscription.setId(id);
-        inscription.setUser(inscription.getUser());
-        inscription.setTopic(inscription.getTopic());
         inscription.setText(text);
 
         inscriptionService.save(inscription);
@@ -117,7 +115,7 @@ public class InscriptionController {
 
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ADMIN"));
-        if (inscriptionService.existById(id) && (inscription.getUser().getLogin().equals(auth.getName()) || hasUserRole)) {
+        if (inscriptionService.existById(id) && (inscription.getUser() == userService.findByLogin(auth.getName()) || hasUserRole)) {
 
             inscriptionService.delete(id);
             if (hasUserRole) {

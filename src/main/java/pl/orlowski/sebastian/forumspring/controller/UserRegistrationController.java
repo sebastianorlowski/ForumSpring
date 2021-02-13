@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
-import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.UserService;
 
 import javax.validation.Valid;
@@ -31,7 +30,6 @@ public class UserRegistrationController {
         return "registration";
     }
 
-    /* After registration we will get message about complete */
     @PostMapping
     public String registerUserAccount(@Valid @ModelAttribute("user") UserRegistrationDto userRegistrationDto,
                                       BindingResult bindingResult) {
