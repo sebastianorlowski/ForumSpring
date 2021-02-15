@@ -20,4 +20,8 @@ public class WebConfiguration implements WebMvcConfigurer {
         return messageSource;
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
 }

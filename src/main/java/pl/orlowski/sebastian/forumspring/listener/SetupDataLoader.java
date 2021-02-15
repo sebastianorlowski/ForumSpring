@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.orlowski.sebastian.forumspring.repository.RoleRepository;
@@ -40,14 +39,16 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         createRoleIfNotFound("USER");
         createRoleIfNotFound("ADMIN");
 
-        Role adminRole = roleRepository.findByName("ADMIN");
-        User user = new User();
-        user.setLogin("Test");
-        user.setPassword(passwordEncoder.encode("test"));
-        user.setEmail("test@test.com");
-        user.setRoles(Arrays.asList(adminRole));
-        user.setEnabled(true);
-        userRepository.save(user);
+        if (userRepository.findByLogin("test") == null) {
+            Role adminRole = roleRepository.findByName("ADMIN");
+            User user = new User();
+            user.setLogin("test");
+            user.setPassword(passwordEncoder.encode("test"));
+            user.setEmail("test@test.com");
+            user.setRoles(Arrays.asList(adminRole));
+            user.setEnabled(true);
+            userRepository.save(user);
+        }
 
         alreadySetup = true;
     }

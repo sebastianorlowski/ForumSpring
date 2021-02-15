@@ -82,14 +82,15 @@ public class TopicController {
 
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+        Topic topic = topicService.findOne(topicId);
 
-        if (topicService.existById(topicId) || hasUserRole) {
-
-            inscriptionService.deleteInscriptionsByTopic(topicService.findOne(topicId));
-            topicService.delete(topicId);
-            return "redirect:/admin?deletetopicsuccess";
-        }
-        return "redirect:/admin";
+            if (topic != null && topicService.existById(topicId) && hasUserRole) {
+                inscriptionService.deleteInscriptionsByTopic(topicService.findOne(topicId));
+                topicService.delete(topicId);
+                return "redirect:/admin?deletetopicsuccess";
+            } else {
+                return "admin";
+            }
     }
 
     /* Get Topic list */
