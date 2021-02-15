@@ -3,7 +3,6 @@ package pl.orlowski.sebastian.forumspring.dto;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 import pl.orlowski.sebastian.forumspring.user.User;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 public class NewInscription {

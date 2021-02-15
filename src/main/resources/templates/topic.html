@@ -38,7 +38,7 @@
                 <div th:if="${#authentication.name} == ${topic.user.login}">
                     <tr>
                     <td colspan="3" style="font-size: smaller">
-                        <a th:href="@{/topic/delete/{id}(id = ${topic.id})}">Delete</a>
+
                     <a th:href="@{/topic/edit/{id}(id = ${topic.id})}" >Edit</a>
                     </td>
                     </tr>

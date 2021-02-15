@@ -17,12 +17,10 @@ public class Inscription {
 
     private String text;
 
-//    Many inscriptions to one user
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn
     private User user;
 
-    // Many inscriptions to one topic
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn
     private Topic topic;

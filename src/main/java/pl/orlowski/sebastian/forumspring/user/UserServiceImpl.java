@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
 import pl.orlowski.sebastian.forumspring.repository.RoleRepository;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
@@ -44,9 +45,9 @@ public class UserServiceImpl implements UserService {
         this.roleRepository = roleRepository;
     }
 
-    /* Save user to db */
     @Override
     public User save(UserRegistrationDto userRegistrationDto) {
+
         User user = new User();
         user.setLogin(userRegistrationDto.getLogin());
         user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
@@ -57,13 +58,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public String getUserLoginByTopic(Long topicId) {
-        Topic topic = topicService.findOne(topicId);
-        User user = topic.getUser();
-        return user.getLogin();
-    }
-
-    /* Login user */
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = userRepository.findByLogin(login);
@@ -107,14 +101,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getUserDetails(User user) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        return "lelel";
+    public boolean userIsExist(User user) {
+        return userRepository.existsById(user.getId());
     }
 
     @Override
-    public boolean userIsExist(User user) {
-        return true;
+    public boolean emailExist(String email) {
+        return userRepository.findByEmail(email) != null;
     }
 }

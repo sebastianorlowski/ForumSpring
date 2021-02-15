@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
 import pl.orlowski.sebastian.forumspring.service.UserService;
+import pl.orlowski.sebastian.forumspring.validator.UserValidator;
 
 import javax.validation.Valid;
 
@@ -18,10 +19,12 @@ import javax.validation.Valid;
 public class UserRegistrationController {
 
     private UserService userService;
+    private UserValidator userValidator;
 
     @Autowired
-    public UserRegistrationController(UserService userService) {
+    public UserRegistrationController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
+        this.userValidator = userValidator;
     }
 
     @GetMapping
@@ -33,10 +36,14 @@ public class UserRegistrationController {
     @PostMapping
     public String registerUserAccount(@Valid @ModelAttribute("user") UserRegistrationDto userRegistrationDto,
                                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "registration";
+            userValidator.validate(userRegistrationDto, bindingResult);
+
+            if (bindingResult.hasErrors()) {
+                return "registration";
+            }
+
+            userService.save(userRegistrationDto);
+            return "redirect:/registration?success";
         }
-        userService.save(userRegistrationDto);
-        return "redirect:/registration?success";
     }
-}
+

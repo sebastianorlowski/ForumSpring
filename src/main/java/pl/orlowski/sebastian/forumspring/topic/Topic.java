@@ -17,7 +17,6 @@ public class Topic {
 
     private String text;
 
-//    Many topics to one user
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn
     private User user;

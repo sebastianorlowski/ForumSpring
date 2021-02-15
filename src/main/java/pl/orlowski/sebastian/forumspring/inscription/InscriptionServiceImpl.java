@@ -10,7 +10,6 @@ import pl.orlowski.sebastian.forumspring.repository.InscriptionRepository;
 import pl.orlowski.sebastian.forumspring.service.InscriptionService;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 import pl.orlowski.sebastian.forumspring.user.User;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
@@ -76,7 +75,5 @@ public class InscriptionServiceImpl implements InscriptionService {
     public boolean existById(Long id) {
         return inscriptionRepository.existsById(id);
     }
-
-
 }
 

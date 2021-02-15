@@ -19,13 +19,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
-//    Password encoder
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    Authentication user
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
@@ -34,7 +32,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return auth;
     }
 
-//    Pass authentication method to configure
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
