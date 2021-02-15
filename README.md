@@ -5,7 +5,7 @@ Simple forum with CRUD operations.
 
 Tools: Spring Framework, Hibernate, Thymeleaf, mySQL, IntelliJ Idea
 
-Functions:
+<b>Functions:</b>
 
 For everyone:
 - /registration path for register new user
@@ -28,7 +28,8 @@ For administrator (admin):
 - Displaying in every topic informations about topic and inscription id
 - Disable/Enable user
 
-    Configuration
+
+<b> Configuration </b>
 
     /* Database connection */
 
