@@ -46,8 +46,11 @@ For administrator (admin):
 
 --------------------------
 
-@Component
-public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
+Path to class: src/main/java/pl/orlowski/sebastian/forumspring/config/SetupDataLoader.java
+This class is for load basic user and roles to database.
+
+    @Component
+    public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     boolean alreadySetup = false;
 
