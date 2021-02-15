@@ -1,6 +1,7 @@
 package pl.orlowski.sebastian.forumspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,9 @@ public class AdminController {
     private TopicService topicService;
     private InscriptionService inscriptionService;
 
+    public AdminController() {
+    }
+
     @Autowired
     public AdminController(UserService userService, TopicService topicService, InscriptionService inscriptionService) {
         this.userService = userService;
@@ -29,7 +33,7 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String adminController() {
+    public String runAdminController() {
         return "admin";
     }
 

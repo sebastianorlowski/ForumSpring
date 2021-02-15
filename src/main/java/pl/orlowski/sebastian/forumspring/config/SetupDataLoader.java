@@ -1,4 +1,4 @@
-package pl.orlowski.sebastian.forumspring.listener;
+package pl.orlowski.sebastian.forumspring.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -6,8 +6,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
 import pl.orlowski.sebastian.forumspring.repository.RoleRepository;
-import pl.orlowski.sebastian.forumspring.repository.UserRepository;
+import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.user.Role;
 import pl.orlowski.sebastian.forumspring.user.User;
 
@@ -18,13 +19,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     boolean alreadySetup = false;
 
-    private UserRepository userRepository;
+    private UserService userService;
     private RoleRepository roleRepository;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public SetupDataLoader(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public SetupDataLoader(UserService userService, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -39,15 +40,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         createRoleIfNotFound("USER");
         createRoleIfNotFound("ADMIN");
 
-        if (userRepository.findByLogin("test") == null) {
-            Role adminRole = roleRepository.findByName("ADMIN");
-            User user = new User();
+        if (userService.findByLogin("test") == null) {
+            UserRegistrationDto user = new UserRegistrationDto();
             user.setLogin("test");
             user.setPassword(passwordEncoder.encode("test"));
             user.setEmail("test@test.com");
-            user.setRoles(Arrays.asList(adminRole));
-            user.setEnabled(true);
-            userRepository.save(user);
+            userService.save(user);
         }
 
         alreadySetup = true;

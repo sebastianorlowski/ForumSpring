@@ -1,6 +1,7 @@
 package pl.orlowski.sebastian.forumspring.service;
 
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
 import pl.orlowski.sebastian.forumspring.inscription.Inscription;
 import pl.orlowski.sebastian.forumspring.topic.Topic;
 import pl.orlowski.sebastian.forumspring.user.User;
@@ -8,6 +9,7 @@ import pl.orlowski.sebastian.forumspring.user.User;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public interface InscriptionService {
 
     Inscription save(Inscription inscription);

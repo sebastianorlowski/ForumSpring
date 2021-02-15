@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
@@ -19,12 +20,8 @@ import pl.orlowski.sebastian.forumspring.repository.RoleRepository;
 import pl.orlowski.sebastian.forumspring.repository.UserRepository;
 import pl.orlowski.sebastian.forumspring.service.TopicService;
 import pl.orlowski.sebastian.forumspring.service.UserService;
-import pl.orlowski.sebastian.forumspring.topic.Topic;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,15 +31,17 @@ public class UserServiceImpl implements UserService {
     private TopicService topicService;
     private RoleRepository roleRepository;
 
-//    Encode password into save
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
     @Autowired
     public UserServiceImpl(UserRepository userRepository, TopicService topicService, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.topicService = topicService;
         this.roleRepository = roleRepository;
+    }
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public UserServiceImpl() {
     }
 
     @Override
