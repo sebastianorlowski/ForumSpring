@@ -5,31 +5,32 @@
 <body>
 <div th:fragment="nav">
 
-<a class="navbar navbar-light" style="background-color: #969bd9;">
+<nav class="navbar navbar-light" style="background-color: #969bd9;">
     <span class="navbar-brand"><a th:href="@{/}">Home</a></span>
 
 
     <div id="navbar" class="collapse navbar-collapse">
+        <n1>
         <ul class="nav navbar-nav navbar-right">
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><n1>Logout</n1></a></li>
         </ul>
         <ul class="nav navbar-nav">
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/topic}">Topic</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/topic}"><n1>Topic</n1></a></li>
         </ul>
 
         <ul class="nav navbar-nav">
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/search}">Search</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/search}"><n1>Search</n1></a></li>
         </ul>
 
         <ul class="nav navbar-nav">
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/user}">Find User</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/user}"><n1>Find User</n1></a></li>
         </ul>
 
         <ul class="nav navbar-nav">
-            <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin}">Admin</a></li>
+            <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin}"><n1>Admin</n1></a></li>
         </ul>
+
     </div>
-
 </nav>
 </div>
 </body>
