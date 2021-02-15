@@ -3,7 +3,7 @@ Project Forum in Spring
 
 Simple forum with CRUD operations.
 
-Tools: Spring Framework, Hibernate, Thymeleaf, mySql, IntelliJ Idea
+Tools: Spring Framework, Hibernate, Thymeleaf, mySQL, IntelliJ Idea
 
 Functions:
 
@@ -27,4 +27,73 @@ For administrator (admin):
 - Delete topic/inscription by id
 - Displaying in every topic informations about topic and inscription id
 - Disable/Enable user
+
+Configuration
+
+/* Database connection */
+
+spring.datasource.url=jdbc:mysql://localhost:3306/forumspring?serverTimezone=Europe/Warsaw&useLegacyDatetimeCode=true
+spring.datasource.username=admin
+spring.datasource.password=admin
+
+/* Hibernate */
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.type=TRACE
+
+--------------------------
+
+@Component
+public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
+
+    boolean alreadySetup = false;
+
+    private UserService userService;
+    private RoleRepository roleRepository;
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    public SetupDataLoader(UserService userService, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    @Transactional
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+
+        if (alreadySetup)
+            return;
+
+        createRoleIfNotFound("USER");
+        createRoleIfNotFound("ADMIN");
+
+        if (userService.findByLogin("test") == null) {
+            UserRegistrationDto user = new UserRegistrationDto();
+            user.setLogin("test");
+            user.setPassword(passwordEncoder.encode("test"));
+            user.setEmail("test@test.com");
+            userService.save(user);
+        }
+
+        alreadySetup = true;
+    }
+
+    @Transactional
+    Role createRoleIfNotFound(String name) {
+
+        Role role = roleRepository.findByName(name);
+        if (role == null) {
+            role = new Role(name);
+            roleRepository.save(role);
+        }
+        return role;
+    }
+}
+
+
 
