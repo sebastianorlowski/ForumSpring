@@ -28,21 +28,21 @@ For administrator (admin):
 - Displaying in every topic informations about topic and inscription id
 - Disable/Enable user
 
-Configuration
+    Configuration
 
-/* Database connection */
+    /* Database connection */
 
-spring.datasource.url=jdbc:mysql://localhost:3306/forumspring?serverTimezone=Europe/Warsaw&useLegacyDatetimeCode=true
-spring.datasource.username=admin
-spring.datasource.password=admin
+    spring.datasource.url=jdbc:mysql://localhost:3306/forumspring?serverTimezone=Europe/Warsaw&useLegacyDatetimeCode=true
+    spring.datasource.username=admin
+    spring.datasource.password=admin
 
-/* Hibernate */
+    /* Hibernate */
 
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+    spring.jpa.hibernate.ddl-auto=update
+    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 
-logging.level.org.hibernate.SQL=DEBUG
-logging.level.org.hibernate.type=TRACE
+    logging.level.org.hibernate.SQL=DEBUG
+    logging.level.org.hibernate.type=TRACE
 
 --------------------------
 
