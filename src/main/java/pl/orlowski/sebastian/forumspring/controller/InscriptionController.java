@@ -110,19 +110,24 @@ public class InscriptionController {
     }
 
     private String deleteInscription(@RequestParam Long id, Authentication auth) {
-        Inscription inscription = inscriptionService.findOne(id);
-        Topic topic = inscription.getTopic();
 
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ADMIN"));
-        if (inscriptionService.existById(id) && (inscription.getUser() == userService.findByLogin(auth.getName()) || hasUserRole)) {
 
-            inscriptionService.delete(id);
-            if (hasUserRole) {
-                return "redirect:/admin?deleteinscriptionsuccess";
+        try {
+            Inscription inscription = inscriptionService.findOne(id);
+            Topic topic = inscription.getTopic();
+            if (inscriptionService.existById(id) && (inscription.getUser() == userService.findByLogin(auth.getName()) || hasUserRole)) {
+
+                inscriptionService.delete(id);
+                if (hasUserRole) {
+                    return "redirect:/admin?deleteinscriptionsuccess";
+                }
+                return "redirect:/topic/" + topic.getId();
             }
-            return "redirect:/topic/" + topic.getId();
+        } catch (Exception e) {
+            return "redirect:/admin?error";
         }
-        return "redirect:/";
+        return "admin";
     }
 }

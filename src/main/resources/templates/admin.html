@@ -13,6 +13,10 @@
 
 <div th:insert="navigation :: nav"></div>
 
+<div th:if="${param.error}">
+    <div class="alert alert-danger">Something went wrong!</div>
+</div>
+
 <div class="container">
     <h4>Get users: </h4>
     <a th:href="@{/admin/getusers}" type="button" class="btn btn-primary"></i>Show all users</a>
@@ -33,7 +37,7 @@
 
 <div class="container">
     <h4>Delete topic by id: </h4>
-    <form method="post" th:action="@{/topic/delete/${topicId}}">
+    <form method="get" th:action="@{/topic/delete/${topicId}}">
         <div class = "col-sm" style="width: 15pc">
             <div th:if="${param.deletetopicsuccess}">
                 <div class="alert alert-danger">You removed topic!</div>

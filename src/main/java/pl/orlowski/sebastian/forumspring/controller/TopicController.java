@@ -77,20 +77,23 @@ public class TopicController {
         return "redirect:/topic/" + topic.getId();
     }
 
-    @PostMapping("/delete/{topicId}")
+    @GetMapping("/delete/{topicId}")
     public String deleteTopicById(@RequestParam Long topicId, Authentication auth) {
 
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ADMIN"));
-        Topic topic = topicService.findOne(topicId);
 
+        try {
+            Topic topic = topicService.findOne(topicId);
             if (topic != null && topicService.existById(topicId) && hasUserRole) {
                 inscriptionService.deleteInscriptionsByTopic(topicService.findOne(topicId));
                 topicService.delete(topicId);
                 return "redirect:/admin?deletetopicsuccess";
-            } else {
-                return "admin";
             }
+        } catch (Exception e) {
+            return "redirect:/admin?error";
+        }
+        return "admin";
     }
 
     /* Get Topic list */

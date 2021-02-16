@@ -10,9 +10,6 @@ import pl.orlowski.sebastian.forumspring.dto.UserRegistrationDto;
 import pl.orlowski.sebastian.forumspring.repository.RoleRepository;
 import pl.orlowski.sebastian.forumspring.service.UserService;
 import pl.orlowski.sebastian.forumspring.user.Role;
-import pl.orlowski.sebastian.forumspring.user.User;
-
-import java.util.Arrays;
 
 @Component
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {

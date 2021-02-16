@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/{userLogin}")
-    public String getInscriptionsByUser(@PathVariable("userLogin") String userLogin, Model model) {
+    public String getInfoByUser(@PathVariable("userLogin") String userLogin, Model model) {
         User user = userService.findByLogin(userLogin);
 
         if (user != null) {
@@ -57,12 +57,16 @@ public class UserController {
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ADMIN"));
 
-        if (userService.userIsExist(userService.findByLogin(userLogin)) || hasUserRole) {
-            userService.enabledUser(userLogin, false);
+        try {
+            if (userService.userIsExist(userService.findByLogin(userLogin)) || hasUserRole) {
+                userService.enabledUser(userLogin, false);
 
-            return "redirect:/admin?deleteusersuccess";
+                return "redirect:/admin?deleteusersuccess";
+            }
+        } catch (Exception e) {
+            return "redirect:/admin?error";
         }
-        return "redirect:/admin";
+        return "admin";
     }
 
     @PostMapping("/enable/{userLogin}")
@@ -70,12 +74,15 @@ public class UserController {
 
         boolean hasUserRole = auth.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+        try {
+            if (userService.userIsExist(userService.findByLogin(userLogin)) || hasUserRole) {
+                userService.enabledUser(userLogin, true);
 
-        if (userService.userIsExist(userService.findByLogin(userLogin)) || hasUserRole) {
-            userService.enabledUser(userLogin, true);
-
-            return "redirect:/admin?enableusersuccess";
+                return "redirect:/admin?enableusersuccess";
+            }
+        } catch (Exception e) {
+            return "redirect:/admin?error";
         }
-        return "redirect:/admin";
+        return "admin";
     }
 }
